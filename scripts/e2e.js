@@ -13,18 +13,16 @@ const datafile = JSON.parse(fs.readFileSync(datafilePath, "utf-8"));
 // Loop through all the keys in the JSON file
 Object.keys(datafile).forEach((dataKey) => {
   const shouldDelete = false;
-
-  myModule.createReportsFolder(reportsFolderPath, shouldDelete);
-
   const timestamp = myModule.generateTimestamp();
-  const reportFilename = `report_${timestamp}.html`;
-  const csvReportFilename = `report_${timestamp}.csv`;
-  const summaryReportFilename = `summary_report_${timestamp}.txt`;
-
   const reportsFolderPath = path.join(
     __dirname,
     `../Reports_${dataKey}_${timestamp}`
   );
+  myModule.createReportsFolder(reportsFolderPath, shouldDelete);
+
+  const reportFilename = `report_${timestamp}.html`;
+  const csvReportFilename = `report_${timestamp}.csv`;
+  const summaryReportFilename = `summary_report_${timestamp}.txt`;
 
   const htmlReportPath = path.join(reportsFolderPath, reportFilename);
   const csvReportPath = path.join(reportsFolderPath, csvReportFilename);

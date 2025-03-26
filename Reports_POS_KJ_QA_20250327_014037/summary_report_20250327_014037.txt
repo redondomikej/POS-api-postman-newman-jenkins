@@ -1,0 +1,19 @@
+
+Summary Report:
+- Environment: QA
+- BE Services: https://qa-parrotapiv2.serino.com
+- Total Passed: 26
+- Total Failed: 0
+- Start Run Date and Time: 2025-03-26T17:40:37.874Z
+- End Run Date and Time: 2025-03-26T17:40:50.004Z
+
+Performance Report:
+- Environment: QA
+- BE Services: https://qa-parrotapiv2.serino.com
+- Total Passed: 26
+- Total Failed: 0
+- Start Run Date and Time: 2025-03-26T17:40:37.874Z
+- End Run Date and Time: 2025-03-26T17:40:50.004Z
+- Total Run Duration: 12.13 seconds
+- Total Data Received: 66.84 KB
+- Average Response Time: 379.62 ms
