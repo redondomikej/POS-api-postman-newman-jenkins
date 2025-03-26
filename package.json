@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "e2e": "cd scripts/agregator && node e2e.js",
-    "1": "cd scripts && node e2e.js"
+    "test": "cd scripts && node e2e.js"
   },
   "author": "",
   "license": "ISC",

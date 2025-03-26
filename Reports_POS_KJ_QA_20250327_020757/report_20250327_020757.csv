@@ -1,0 +1,27 @@
+Request Name,API URL,Status,Status Code,Request Method,Response Time (ms),Response Size (bytes),Assertions Passed,Assertions Failed,QAA_Result
+Merchant Login,https://qa-parrotapiv2.serino.com/api/v1/auth/login,OK,200,POST,5959,4784,1,0,Passed
+Employee Login,https://qa-parrotapiv2.serino.com/api/v1/auth/employee-login,OK,200,POST,1418,6959,1,0,Passed
+Get Products,https://qa-parrotapiv2.serino.com/api/v1/products?page=1&size=20&sort=createdAt.desc&branch_id=12&name=Otis,OK,200,GET,74,180,1,0,Passed
+Get Product by Branch ID and Sku,https://qa-parrotapiv2.serino.com/api/v1/products/branch/12/sku/KJ100001,OK,200,GET,68,2403,1,0,Passed
+Get Table by Merchant ID and Branch ID,https://qa-parrotapiv2.serino.com/api/v1/tables/merchant/KJ-0001/branch/12,OK,200,GET,55,1797,1,0,Passed
+Update Table Status to Available,https://qa-parrotapiv2.serino.com/api/v1/tables/status/merchant/Popeyes/branch/12,OK,200,PATCH,70,256,1,0,Passed
+Create Order,https://qa-parrotapiv2.serino.com/api/v1/orders,Created,201,POST,125,2549,1,0,Passed
+Get Order by UUID,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,69,2547,1,0,Passed
+Update Table Status to Occupied,https://qa-parrotapiv2.serino.com/api/v1/tables/status/merchant/KJ-0001/branch/12,OK,200,PATCH,73,1767,1,0,Passed
+Accept & Prepare Order,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/order_status,OK,200,PATCH,137,83,1,0,Passed
+Accept & Prepare Item,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/items/1b0eb3e5-49cd-4d75-95a7-f7604fa96efa/item_status,OK,200,PATCH,169,3096,1,0,Passed
+Verify if Status is Accepted & Prepared,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,64,3096,1,0,Passed
+Ready Order,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/order_status,OK,200,PATCH,133,83,1,0,Passed
+Ready Item,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/items/1b0eb3e5-49cd-4d75-95a7-f7604fa96efa/item_status,OK,200,PATCH,168,3588,1,0,Passed
+Verify if Status is Readied,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,63,3588,1,0,Passed
+Serve Order,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/order_status,OK,200,PATCH,135,83,1,0,Passed
+Serve Item,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/items/1b0eb3e5-49cd-4d75-95a7-f7604fa96efa/item_status,OK,200,PATCH,168,4119,1,0,Passed
+Verify if Status is Served,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,67,4119,1,0,Passed
+Complete Order,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/order_status,OK,200,PATCH,134,83,1,0,Passed
+Verify if Order is Completed,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,65,4325,1,0,Passed
+Get Promo,https://qa-parrotapiv2.serino.com/api/v1/promos?page=1&size=4&sort=createdAt.desc&promo_type=KJ,OK,200,GET,732,3367,0,0,Passed
+Get Order by UUID,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,68,4325,1,0,Passed
+Add Order Payment,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/payment-details,Created,201,POST,332,4700,1,0,Passed
+Update Payment Status,https://qa-parrotapiv2.serino.com/api/v2/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6/payment_status,OK,200,PATCH,66,83,1,0,Passed
+Verify if Order is Paid,https://qa-parrotapiv2.serino.com/api/v1/orders/00844cfc-8bcd-459b-a6b0-4fa787e2fce6,OK,200,GET,65,4700,1,0,Passed
+Update Table Status to ReAvailable,https://qa-parrotapiv2.serino.com/api/v1/tables/status/merchant/KJ-0001/branch/12,OK,200,PATCH,71,1768,1,0,Passed
