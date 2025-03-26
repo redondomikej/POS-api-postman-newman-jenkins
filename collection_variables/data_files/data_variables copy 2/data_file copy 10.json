@@ -1,0 +1,39 @@
+{
+  "POS_KUYAJ_dev_e2e_sc": {
+    "service_env": "https://dev-parrotapiv2.serino.com",
+    "username": "dev-kuyaj_store-owner@yopmail.com",
+    "password": "iFqhiDy?",
+    "terminal_id": 3,
+    "access_code": "000001",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "KJ100001",
+    "dining_option": "Dine-in",
+    "branch_location": "Otis",
+    "source": "POS",
+    "platform": "POS",
+    "platform_details": "POS",
+    "disc_device_code": "KJ-WaiterApp023",
+    "disc_employee_code": "EMP002",
+    "disc_terminal_id": "2",
+    "promo_id": "6d75a912-67e3-4f49-a28d-d52d90824562",
+    "number_of_pax": 1,
+    "customer_name": "Test Name",
+    "customer_id": "sc-1234"
+  },
+  "POS_POPEYES_QA_e2e": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-pop_admin@yopmail.com",
+    "password": "qapopeyes",
+    "terminal_id": "103",
+    "access_code": "689460",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "KJ100001",
+    "dining_option": "Dine-in",
+    "branch_location": "Otis",
+    "source": "POS",
+    "platform": "POS",
+    "platform_details": "POS"
+  }
+}

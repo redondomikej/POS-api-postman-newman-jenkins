@@ -1,0 +1,62 @@
+{
+  "Popeyes_DineIn": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-pop_admin@yopmail.com",
+    "password": "qapopeyes",
+    "terminal_id": "103",
+    "access_code": "844766",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "1000000001",
+    "dining_option": "Dine-in",
+    "branch_location": "Otis",
+    "source": "",
+    "platform": "",
+    "platform_details": ""
+  },
+  "Popeyes_TakeOut": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-pop_admin@yopmail.com",
+    "password": "qapopeyes",
+    "terminal_id": "103",
+    "access_code": "844766",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "1000000001",
+    "dining_option": "Take-out",
+    "branch_location": "Otis",
+    "source": "",
+    "platform": "",
+    "platform_details": ""
+  },
+  "KuyaJ_DineIn": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-kuyaj_admin@yopmail.com",
+    "password": "5&JeqXPn",
+    "terminal_id": "103",
+    "access_code": "689460",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "1000000033",
+    "dining_option": "Dine-in",
+    "branch_location": "Otis",
+    "source": "",
+    "platform": "",
+    "platform_details": ""
+  },
+  "KuyaJ_TakeOut": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-kuyaj_admin@yopmail.com",
+    "password": "5&JeqXPn",
+    "terminal_id": "103",
+    "access_code": "689460",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "1000000033",
+    "dining_option": "Take-out",
+    "branch_location": "Otis",
+    "source": "",
+    "platform": "",
+    "platform_details": ""
+  }
+}

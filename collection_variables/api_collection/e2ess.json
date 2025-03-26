@@ -1,0 +1,501 @@
+{
+	"info": {
+		"_postman_id": "1e10b534-2257-473d-8e6a-ad8cb5b073cf",
+		"name": "e2ess",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23164958"
+	},
+	"item": [
+		{
+			"name": "Merchant Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set('MERCHANT_ACCESS_TOKEN', 'Bearer ' + pm.response.json().data.AccessToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const payload = pm.iterationData.get(\"Merchant_Login_payload_request_data\");\r",
+							"pm.variables.set(\"stringified_Merchant_Login_payload_request_data\", JSON.stringify(payload));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"{{username}}\",\r\n    \"password\": \"{{password}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{service_env}}/api/v1/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Employee Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Generate a random UUID\r",
+							"const randomUUID = generateUUID();\r",
+							"function generateUUID() {\r",
+							"    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+							"        let r = Math.random() * 16 | 0,\r",
+							"            v = c == 'x' ? r : (r & 0x3 | 0x8);\r",
+							"        return v.toString(16);\r",
+							"    });\r",
+							"    return uuid;\r",
+							"}\r",
+							"\r",
+							"// Generate a random number between 1000 and 9999 for a dynamic number\r",
+							"const randomNumber = Math.floor(Math.random() * 9000) + 1000;\r",
+							"\r",
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"\r",
+							"});\r",
+							"\r",
+							"    pm.collectionVariables.set(\"ACCESS_TOKEN\", \"Bearer \" + pm.response.json().data.AccessToken);\r",
+							"pm.collectionVariables.set(\"random_uuid\", randomUUID);\r",
+							"pm.collectionVariables.set(\"random_number\", randomNumber.toString());\r",
+							"\r",
+							"pm.collectionVariables.set(\"employee_id\", pm.response.json().data.employee_id);\r",
+							"\r",
+							"pm.collectionVariables.set(\"access_code\", pm.response.json().data.access_code);\r",
+							"\r",
+							"pm.collectionVariables.set(\"first_name\", pm.response.json().data.first_name);\r",
+							"\r",
+							"pm.collectionVariables.set(\"last_name\", pm.response.json().data.last_name);\r",
+							"\r",
+							"pm.collectionVariables.set(\"_id\", pm.response.json().data._id);\r",
+							"\r",
+							"pm.collectionVariables.set(\"merchant\", pm.response.json().data.merchant);\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{MERCHANT_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"access_code\": \"{{access_code}}\",\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SmpkSGtpT2lKS1YxUWlMQ0psYm1NaU9pSkJNalUyUjBOTklpd2lZV3huSWpvaVVsTkJMVTlCUlZBaWZRLkw2OEV5NTIzb0NzT2s5MVRkY2ZKZXdNMWI2SjZMTE1Xd3dlTGNJaUZERjNYWkpubGs4V0UxVmJYSHVnS1hnVG5NS2hPakpJSFhTbVNWQ0JJWk52eXpUb1NhMzBoczlkRHEzc1Z6RW9WX1NFVXU0encwdjBqYU5jbDNXOEVaNnpjdGk0NDZzQlJhOEFlS25BcFpXMEZLc2d1VHpZa0FXbDNtXzJvWTFvajJTcEJoUzlTc09zUWtpQmpqdHRaMkQ2bUdtcUZxZUxSVUNYZzFOcTlfMHJlczlJUkNVbm0tb2ViM1RuUVlOYnhIVEtlN0RJeDQ1a2k4Rl9BaVpBeHpuQ1EwMzRkQ1BRTjVDTkVxYlVVV2JJUUVoZGlrNzh6SVE0bXZVNU1HLWRrbjdXOTBTUFVIQ2EwYURDaC0wM1FrajB2N3k5T3RMX2xCendmRWd1bHpkSUgxQS5oU2NyVjVmNnlNWlNVTHgtLmFKeldES0Rkd2Z6ZGVfUk5hM3lFdW1CQ1RxUGxDZGpzS3Y0MFNKZzNuTVBPdU9sSktFd0pQVV8ybkhuaEh6Uy1NQXJ1STdST3R5ckFDTnFkeUhFaU1RSFJ2dm9iaWdZLWROMFZuYjEwWmozR3ZfeGJoUk5FYVFuNm9TYmY0LXVnWGxQVVdrdGxHbF9lSXk1OFNzeHl6T29LSUg3bWE1SGNGSkZZcHJWbjB6M2d1WDBtSzN1WllCcUVRaUkxY1luWklObEFHRjJuM1Vlb3UzTVBUSVcxcXNNMWtHUW5DNHBELXFkbWoyakMwLVc5QjZCZXd0bUVmRkxxQWZiWVI1WVZtRWhNcjVqYTVPNm40MkpGR05FVGVLdnNOc0lqZm0wRWVGQkFKMVVwMTZIQjlDaE01Q3JRN3BFZFVHVjFBckhvUWZYMTIwalhsZUJrOGxaUWFZaHpReFJaWXJ0UmsyOW9CcTlaTnYxNG1jdDN6TVJjbVRqRVdSQ0dHQUwtUTFfTm52c1JNM0ZGODAzUEFKaXA0dGNyWWpyMDlVNlJubHZoMjBTTnp1Uk1JX2pobUVmQlhOd0pUVzUtaTJEUE9zRkFiV3lhcUdEWFdpS3Q1MXoxSFItSWtfRkZ6VkJqdG80RWNaMWNBLUtZR1VtVnVRZWhHUnpmTXFLc2NWTXZMUUNQcDA0eENPdFhfMFFsblU0WF9DRGFBd0M5czFGTTQ1eWhGTFF5Mkt0QUxmNEJfQlE3Qmh3R2Zqa0h5ajhwMTgxdmRySDJVbUFvQTktN2pZZE85b0J0U2w0cUpMRXBBU1R2QnlwNmpxVG9zMFBnWjVwSW5uRDhHTllSX3NpR2lGLWt1Qmx5eENaa2RoYWNqSExnaWVRNWxJRVltTE9teU8zYzZLVzhvRS1QWXV4VWprNUp0T1Y5X1V4dXd2ZXJXUmN5OHFHY1dTeGtDWXY3blNheVRqSEF3T281c0tXMlBYU3NRWG1ILWlWOGhtWTc2RXlTS3dVaklTSU9yaVBQUEh1aGJZWl9NWHZxWnlHZmNXQTJTZzllbV95ckdKWXVtMG03NjlFZFQxdU5hQWJpdnZiVXlNakNVTnlXSnF6OWEyNXhhc3VvSWFZSnBNQU1BUXRlcTZtVHRhRVhBY19uM0ZmZi1BY2o2VFg5b25LaFJaSlROUTdpRFY3TS1MUUVjcThyUVZ1ZU1Cd0JtZVhMazYxbEp1dnctQ2xiYnpLSkFYR2VjV0k2WElZcGFJRUhXUDNxV3dYb0RhYjBteFZpT3puazRKYkE5bmtLa2VWRHREZU16NnJUdTFxcWdjQXBCX3l4WjRuaUNxd0FQWVRzV1pMb1RaLW1xOEFPa0Z2WjQyekFFZGJBTnRJY09yMDNZc1BsMXVGV3ZGNjV5WVJQd0hSWGZzaTJvQzgtalZzaVYtUmQ2RGgtWTZXN1NTbURHRFJ1TGxIN2trWFRicFdKckl2LWRNVmtxR29TVThDeG1CbHN6VFhwRF90LVhpMm5WYXZHWlN2UEI5U29LUVd6WDZFcjdzeXBzNnRSVU84RWU3bFBzSmlwV2J3ZFFtNHRtSTVXSkliWUd4bWJKeE9oaFplZXBEWVlqNFRScVRKTXpaNFdUT2YxejczQUoxYWVxQ0FJWUZEd2RialFKWEV3NVBkODhZc09EVEJnOFFXQWhFbWZDaUw0Q2VXTnRGamJPRWRMMURJdGNkczR6bTdkdXZ1eGVHYWF3TnlraGtKUlQ0aUEySlhSdm5KMTJMMC1zQWFOclBZLkdLSFdmMDFZSWJ2T2VIS09USUgtWnciLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJERVYtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIzMzRiNGI3dTRiYnU0bm83ZWI2MGJtMG9zYyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV96SnZWYjRmSFMiLCJpYXQiOjE3MTc0NzY3ODksImFwcF9kYXRhIjp7InRlcm1pbmFsX2lkIjoiMTAifX0.1acqsPNv0pQ7uFxoad3kVWQ1Vc0X3080HEkBbuTR5WA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{service_env}}/api/v1/auth/employee-login"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Promo",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{service_env}}/api/v1/promos?page=1&size=4&sort=createdAt.desc&promo_type=KJ",
+					"host": [
+						"{{service_env}}"
+					],
+					"path": [
+						"api",
+						"v1",
+						"promos"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "size",
+							"value": "4"
+						},
+						{
+							"key": "sort",
+							"value": "createdAt.desc"
+						},
+						{
+							"key": "promo_type",
+							"value": "KJ"
+						},
+						{
+							"key": "branch_id",
+							"value": "12",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Get the current date and time\r",
+							"const currentDate = new Date();\r",
+							"\r",
+							"// Format the date and time as \"YYYY-MM-DD HH:mm:ss\"\r",
+							"const formattedDateTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;\r",
+							"\r",
+							"// Set the formatted date and time to a collection variable\r",
+							"pm.collectionVariables.set(\"formattedDateTime\", formattedDateTime);\r",
+							"console.log(\"Formatted Date and Time:\", formattedDateTime);\r",
+							"\r",
+							"// Function to generate a UUID\r",
+							"function generateUUID() {\r",
+							"    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+							"        const r = (Math.random() * 16) | 0;\r",
+							"        const v = c === 'x' ? r : (r & 0x3) | 0x8;\r",
+							"        return v.toString(16);\r",
+							"    });\r",
+							"}\r",
+							"\r",
+							"// Generate a UUID\r",
+							"const uuid = generateUUID();\r",
+							"\r",
+							"// Set the UUID as a collection variable\r",
+							"pm.collectionVariables.set(\"uuid\", uuid);\r",
+							"\r",
+							"// Log the UUID to the Postman console\r",
+							"console.log(\"Generated UUID:\", pm.collectionVariables.get(\"uuid\"));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"\r",
+							"let cart_id_data = responsedata.data[0].cart_id;\r",
+							"pm.collectionVariables.set(\"cart_id\", cart_id_data);\r",
+							"\r",
+							"let item_id_data = responsedata.data[0].items[0].item_id;\r",
+							"pm.collectionVariables.set(\"item_id\", item_id_data);\r",
+							"\r",
+							"\r",
+							"\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"action\": \"create-order\",\r\n    \"order_details\": [\r\n        {\r\n            \"_id\": 0,\r\n            \"uuid\": \"{{uuid}}\",//coded\r\n            \"order_id\": 0,\r\n            \"version\": 1,\r\n            \"terminal_id\": \"{{terminal_id}}\",//datafile\r\n            \"merchant_id\": \"{{merchant_id}}\",//env\r\n            \"employee_code\": \"{{employee_id}}\",//collectionvar\r\n            \"employee_name\": \"{{first_name}} {{last_name}}\",//collectionvar\r\n            \"oms_account_id\": \"4\",\r\n            \"merchant\": \"{{merchant}}\",//collectionvar\r\n            \"branch_id\": \"{{branch_id}}\",//datafile\r\n            \"currency\": \"PHP\",\r\n            \"payment_status\": \"Pending\",\r\n            // \"payment_status\": \"Paid\",\r\n            \"mode_of_payment\": \"\",\r\n            \"payment_network\": \"\",\r\n            \"approval_code\": \"\",\r\n            \"created_datetime\": \"{{formattedDateTime}}\",//coded\r\n            \"order_status\": \"Pending\",\r\n            // \"or_number\": \"{{or_number}}\",//coded\r\n            \"tracking_number\": \"\",\r\n            \"reference_1\": \"\",\r\n            \"order_acceptance_status\": \"accepted\",\r\n            \"dining_option\": \"{{dining_option}}\",//datafile\r\n            \"branch_location\": \"{{branch_location}}\",//datafile\r\n            \"number_of_pax\": 1,\r\n            \"table_details\": {\r\n                \"table_ids\": [\r\n                    \"T101\"//collectionvar\r\n                ],\r\n                \"occupied_at\": \"{{formattedDateTime}}\"//coded\r\n            },\r\n            \"number_of_split_bill\": 0,\r\n            \"cart_id\": \"\",\r\n            \"customer_tin\": \"\",\r\n            \"print_count\": 0,\r\n            \"fees_and_adjustment\": [],\r\n            \"kds_history\": [],\r\n            \"kds_f_history\": [],\r\n            \"kds_b_history\": [],\r\n            \"history\": [\r\n                {\r\n                    \"created_at\": \"{{formattedDateTime}}\",//coded\r\n                    \"created_by\": \"{{_id}}\",//collectionvar\r\n                    \"terminal_id\": \"{{terminal_id}}\",//datafile\r\n                    \"details\": \"Pending\",\r\n                    \"type\": \"order_status\",\r\n                    \"employee_code\": \"{{employee_id}}\",//collectionvar\r\n                    \"saved_to_omrs\": \"true\"\r\n                }\r\n            ],\r\n            \"store_reference_id\": \"\",\r\n            \"merchant_reference_id\": \"\",\r\n            \"fulfillment_type\": \"\",\r\n            \"change_for\": \"\",\r\n            \"shipping_address\": {\r\n                \"full_address\": \"\",\r\n                \"pinned_address\": \"\",\r\n                \"region\": \"\",\r\n                \"city\": \"\",\r\n                \"barangay\": \"\",\r\n                \"street\": \"\",\r\n                \"landmark\": \"\",\r\n                \"zip_code\": \"\",\r\n                \"latitude\": 0,\r\n                \"longitude\": 0,\r\n                \"details\": \"\"\r\n            },\r\n            \"customer\": {\r\n                \"first_name\": \"Rojen\",\r\n                \"last_name\": \"De Luna\",\r\n                \"email\": \"rojen.deluna@serino.com\",\r\n                \"contact_number\": \"09382239911\",\r\n                \"fullname\": \"Rojen De Luna\",\r\n                \"delivery_address\": \"Arayat Gate, North Expressway, San Fernando, 2000, Pampanga, PH\",\r\n                \"tin\": \"\",\r\n                \"senior_citizen_name\": [],\r\n                \"senior_citizen_id\": [],\r\n                \"senior_citizen_tin\": [],\r\n                \"pwd_name\": [],\r\n                \"pwd_id\": [],\r\n                \"pwd_tin\": [],\r\n                \"number_of_pax\": 1\r\n            },\r\n            \"schedule\": \"{{formattedDateTime}}\",//coded\r\n            \"reservation_reference\": \"\",\r\n            \"notes\": [],\r\n            \"items\": [\r\n                {\r\n                    \"type\": \"Food\",\r\n                    \"reference_id\": \"1\",\r\n                    \"sku\": \"KJ100001\",//datafile\r\n                    \"barcode\": \"0\",\r\n                    \"name\": \"Dinakdakan\",\r\n                    \"description\": \"Crispy, deep-fried pork slices, perfectly seasoned with our signature sauce, then topped with fresh onions and chili for a hint of heat. Then drizzled with roasted coconut milk.\",\r\n                    \"quantity\": 1,\r\n                    \"price\": 295,\r\n                    \"image\": \"https://kuyaj-product-qa.s3.ap-southeast-1.amazonaws.com/Product%20Image/kuya%2Bj.png\",\r\n                    \"options\": \"\",\r\n                    \"instructions\": \"Less salt\",\r\n                    \"reference_1\": \"\",\r\n                    \"reference_2\": \"\",\r\n                    \"reference_3\": \"\",\r\n                    \"item_status\": \"Pending\",\r\n                    \"food_type\": \"Food\",\r\n                    \"bundle\": []\r\n                },\r\n                 {\r\n                    \"type\": \"Food\",\r\n                    \"reference_id\": \"2\",\r\n                    \"sku\": \"KJ100003\",//datafile\r\n                    \"barcode\": \"0\",\r\n                    \"name\": \"Pinoy -Style Fried Chicken\",\r\n                    \"description\": \"Crispy, deep-fried chicken coated in a perfectly seasoned breading na swak sa panlasang Pino! Made even more flavorful with: rich liver sauce, special coco vinegar, and a side of burong mangga.\",\r\n                    \"quantity\": 1,\r\n                    \"price\": 650,\r\n                     \"image\": \"https://kuyaj-product-qa.s3.ap-southeast-1.amazonaws.com/Product%20Image/kuya%2Bj.png\",\r\n                    \"options\": \"\",\r\n                    \"instructions\": \"Less salt\",\r\n                    \"reference_1\": \"\",\r\n                    \"reference_2\": \"\",\r\n                    \"reference_3\": \"\",\r\n                    \"item_status\": \"Pending\",\r\n                    \"food_type\": \"Food\",\r\n                    \"bundle\": []\r\n                },\r\n                 {\r\n                    \"type\": \"Food\",\r\n                    \"reference_id\": \"3\",\r\n                    \"sku\": \"KJ100004\",//datafile\r\n                    \"barcode\": \"0\",\r\n                    \"name\": \"Seafood Kare-Kare\",\r\n                    \"description\": \"The perfect bite sized appetizers, with a savory filling in a golden, crunchy coating. Each piece is drizzled with our special sauce, then topped with chicken floss.\",\r\n                    \"quantity\": 1,\r\n                    \"price\": 469,\r\n                    \"image\": \"https://kuyaj-product-qa.s3.ap-southeast-1.amazonaws.com/Product%20Image/kuya%2Bj.png\",\r\n                    \"options\": \"\",\r\n                    \"instructions\": \"Less salt\",\r\n                    \"reference_1\": \"\",\r\n                    \"reference_2\": \"\",\r\n                    \"reference_3\": \"\",\r\n                    \"item_status\": \"Pending\",\r\n                    \"food_type\": \"Food\",\r\n                    \"bundle\": []\r\n                }\r\n            ],\r\n            \"delivery\": [],\r\n            \"action_to_proceed\": \"\",\r\n            \"source\": \"{{source}}\",//datafile\r\n            \"platform\": \"{{platform}}\",//datafile\r\n            \"platform_details\": \"{{platform_details}}\",//datafile\r\n            \"service_charge_amount\": 10\r\n\r\n            // \"total_amount\": 652.14,\r\n            // \"sub_total_amount\": 500,\r\n            // \"vatable_sales\": 223.21,\r\n            // \"vat_amount\": 26.79,\r\n            // \"vat_exempt_sales\": 223.21,\r\n            // \"zero_rated_sales\": 0,\r\n            // \"sub_total_tax\": 0,\r\n            // \"total_tax\": 0\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{service_env}}/api/v1/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order by UUID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"packages": {},
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": "{{service_env}}/api/v1/orders/{{uuid}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Add Order Payment",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"KJ-WaiterApp023\",\r\n    \"employee_code\": \"EMP002\",\r\n    \"terminal_id\": \"2\",\r\n    \"or_number\": \"\",\r\n    \"payment_details\": {\r\n        \"payment_id\": \"1\",\r\n        \"mode_of_payment\": \"Cash\",\r\n        \"change_for\": 652.14,\r\n        // \"amount\": 652.14\r\n         \"amount\": 1414\r\n        //  \"amount\": 478.57\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{service_env}}/api/v2/orders/{{uuid}}/payment-details"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Payment Status V2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"KJ-WaiterApp003\",\r\n    \"employee_code\": \"EMP002\",\r\n    \"terminal_id\": \"2\",\r\n    \"payment_status\": \"Paid\",\r\n    \"payment_network\": \"cash\",\r\n    \"approval_code\": \"12345\",\r\n    \"change_for\": \"1000\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{service_env}}/api/v2/orders/{{uuid}}/payment_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Order by UUID",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"url": "{{service_env}}/api/v1/orders/{{uuid}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "formattedDateTime",
+			"value": ""
+		},
+		{
+			"key": "or_number",
+			"value": ""
+		},
+		{
+			"key": "MERCHANT_ACCESS_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "random_uuid",
+			"value": ""
+		},
+		{
+			"key": "random_number",
+			"value": ""
+		},
+		{
+			"key": "employee_id",
+			"value": ""
+		},
+		{
+			"key": "access_code",
+			"value": ""
+		},
+		{
+			"key": "first_name",
+			"value": ""
+		},
+		{
+			"key": "last_name",
+			"value": ""
+		},
+		{
+			"key": "_id",
+			"value": ""
+		},
+		{
+			"key": "merchant",
+			"value": ""
+		},
+		{
+			"key": "table_id",
+			"value": ""
+		},
+		{
+			"key": "table_capacity",
+			"value": ""
+		},
+		{
+			"key": "cart_id",
+			"value": ""
+		},
+		{
+			"key": "item_id",
+			"value": ""
+		},
+		{
+			"key": "uuid",
+			"value": ""
+		},
+		{
+			"key": "randomUUID",
+			"value": ""
+		}
+	]
+}

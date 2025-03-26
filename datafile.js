@@ -1,0 +1,129 @@
+const fs = require("fs");
+
+// uat
+// service_env: "https://uat-parrotapi.serinodmz.com",
+// terminal_id: "1",
+// branch_id: "12",
+// name: "Otis",
+// sku: "1000000001",
+// dining_option: "Dine-in",
+// branch_location: "Otis",
+// source: "POS",
+// platform: "POS",
+// platform_details: "POS",
+// ACCESS_TOKEN:
+//   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC",
+
+// qa
+// service_env: "https://qa-parrotapiv2.serino.com",
+// terminal_id: "103",
+// branch_id: "12",
+// name: "Otis",
+// sku: "KJ100001",
+// dining_option: "Dine-in",
+// branch_location: "Otis",
+// source: "POS",
+// platform: "POS",
+// platform_details: "POS",
+// ACCESS_TOKEN:
+//   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+const data = {
+  service_env: "https://uat-parrotapi.serinodmz.com",
+  terminal_id: "1",
+  branch_id: "12",
+  employee_id: "EMP009",
+  _id: "661d2c107a82b30652df2f3a",
+  first_name: "Otis",
+  last_name: "Owner",
+  merchant_id: "KJ-0001",
+  merchant: "Kuya J",
+  table_id: "T101",
+  name: "Otis",
+  sku: "KJ100001",
+  dining_option: "Dine-in",
+  branch_location: "Otis",
+  source: "POS",
+  platform: "POS",
+  platform_details: "POS",
+  ACCESS_TOKEN:
+    "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SnJhV1FpT2lKY0x6VmFhMFYwYkVoaFVVaFlRMmQ2UWtrMVVVODVUWEZLY1U5clpuSmNMMEk1T0hOd1V6SlVNRVpwY1hjOUlpd2lZV3huSWpvaVVsTXlOVFlpZlEuZXlKemRXSWlPaUptWlRkbU56WTNOUzFrWVdVeUxUUmhNRFV0WVRVM09DMHdZbUpoWldVNVlXWXpOallpTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVlYQXRjMjkxZEdobFlYTjBMVEV1WVcxaGVtOXVZWGR6TG1OdmJWd3ZZWEF0YzI5MWRHaGxZWE4wTFRGZllrYzBRVzR5ZFdoaklpd2lZMnhwWlc1MFgybGtJam9pTW5Ga2NtOW5jWE4yTURGeGIzUnpNR280TkdsMk5EQnBOMmNpTENKdmNtbG5hVzVmYW5ScElqb2lNbUppWTJOaU1EWXRPVFF5WXkwME9UQmlMV0ZsWkRVdE56YzBaR0V4WXpRNU1XTXpJaXdpWlhabGJuUmZhV1FpT2lJMVpqTmlOV0poWWkxbE16a3hMVFJsTXpjdE9XTTJZaTB4TURrM1pEVmtZemd3WldZaUxDSjBiMnRsYmw5MWMyVWlPaUpoWTJObGMzTWlMQ0p6WTI5d1pTSTZJbUYzY3k1amIyZHVhWFJ2TG5OcFoyNXBiaTUxYzJWeUxtRmtiV2x1SWl3aVlYVjBhRjkwYVcxbElqb3hOelF5TWpZNU5UQTRMQ0psZUhBaU9qRTNOREl5TnpNeE1EZ3NJbWxoZENJNk1UYzBNakkyT1RVd09Dd2lhblJwSWpvaVpqWmxaREpsWVdRdFpqQTNNaTAwTkRabUxXSm1NelF0TUdJNU9UWXdPRFEwTldFMElpd2lkWE5sY201aGJXVWlPaUoxWVhRdGEzVjVZV3BmWVdSdGFXNGlmUS5ObXFZRXloY3QzdDlwQVV6a3FfbkdwNXkzNlpWSGZON1Q3Y1hlTVhIcVM5ZndBZEJKT0tmTWtwTUtvSHZqMWNybGp6WUpBeWFNSzVqa2J1WVg0SFMzRExldk1VSE5wOHVoZ244MWtlQzZ2ZUdxNklUNHRRbk9xQ0NsN2VjbHFMYy01NEJKckRUajRUNXpyMHpvT1Rnd29VNzJqMm1qX2YwOHliblhKMElNWUxrSXJoWUc4TUJWOVhCSmIzaUNOVHZPZURaWWdNcUpMZGJEQ2J6ZWRvUzBhQW1FR2gzWHBTYmxuSG5JN0FYWnZIRVQ0M1gyUTlhYy1Da20yeGNvQ2duQjNwckdPcTJCNTZWUmFOU1RTTllseF9rSlpfeXJ1Mi14U1hzVjJscThLRkZTSmNVMmNXY2hERU01S0RMOXJUUEkzTWEtc09MSGhBaklvVEkzdnc4ZUEiLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJVQVQtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIycWRyb2dxc3YwMXFvdHMwajg0aXY0MGk3ZyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV9iRzRBbjJ1aGMiLCJpYXQiOjE3NDIyNjk1MDksImFwcF9kYXRhIjp7ImVtcGxveWVlIjp7Il9pZCI6IjY2MWQyYzEwN2E4MmIzMDY1MmRmMmYzYSIsImpvYl9yb2xlIjoiTWFuYWdlciIsImVtcGxveWVlX2lkIjoiRU1QMDA5IiwiYWNjZXNzX2NvZGUiOiI5Mjg5MjMiLCJmaXJzdF9uYW1lIjoiT3RpcyIsImxhc3RfbmFtZSI6Ik93bmVyIiwiZW1haWwiOiJvdGlzX2tqQHlvcG1haWwuY29tIiwiaXNfYWN0aXZlIjp0cnVlLCJjb250YWN0X251bWJlciI6IjA5MDYwMjUyMTM1IiwibWVyY2hhbnQiOiJLdXlhIEoiLCJicmFuY2giOlt7Il9pZCI6IjEyIiwibmFtZSI6Ik9USVMifSx7Il9pZCI6IjE4IiwibmFtZSI6IlNNIEJBTElXQUcifV0sImNyZWF0ZWRBdCI6IjIwMjQtMDQtMTVUMTM6MzA6NTYuNjU4WiIsInVwZGF0ZWRBdCI6IjIwMjQtMDQtMTVUMTM6MzA6NTYuNjU4WiJ9LCJ0ZXJtaW5hbF9pZCI6IjEiLCJicmFuY2hfaWQiOiIxMiJ9fQ.X706ChzLxM8UlPOD6veHKoHPEBFEqgfB-NmZRAoVLa0",
+
+  // service_env: "https://uat-parrotapi.serinodmz.com",
+  // terminal_id: "59",
+  // branch_id: "54",
+  // employee_id: "EMP0010keyland",
+  // _id: "67c00e36f1ffd3fe560a6c1f",
+  // first_name: "Mike",
+  // last_name: "Manager",
+  // merchant_id: "POP-0001",
+  // merchant: "Popeyes",
+  // table_id: "T101",
+  // name: "Kroma",
+  // sku: "POP20001",
+  // dining_option: "Dine-in",
+  // branch_location: "Kroma",
+  // source: "POS",
+  // platform: "POS",
+  // platform_details: "POS",
+  // ACCESS_TOKEN:
+  //   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjo5LCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SnJhV1FpT2lKY0x6VmFhMFYwYkVoaFVVaFlRMmQ2UWtrMVVVODVUWEZLY1U5clpuSmNMMEk1T0hOd1V6SlVNRVpwY1hjOUlpd2lZV3huSWpvaVVsTXlOVFlpZlEuZXlKemRXSWlPaUptTTJJMU5EUXlaUzFtTXpRNUxUUTFOek10T0RVNE5pMW1OV015WlRJd056SXhOekFpTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVlYQXRjMjkxZEdobFlYTjBMVEV1WVcxaGVtOXVZWGR6TG1OdmJWd3ZZWEF0YzI5MWRHaGxZWE4wTFRGZllrYzBRVzR5ZFdoaklpd2lZMnhwWlc1MFgybGtJam9pTW5Ga2NtOW5jWE4yTURGeGIzUnpNR280TkdsMk5EQnBOMmNpTENKdmNtbG5hVzVmYW5ScElqb2lNMk0zTldSak5USXRNekkyT1MwMFpEUXdMV0l6T1RZdE5EQXpNVFJqT1RsbFpqZ3pJaXdpWlhabGJuUmZhV1FpT2lJM05EZGhOREJsWWkwellUazJMVFJoTWpjdE9USm1NUzFtWXpRME0yVmtZemsxWldVaUxDSjBiMnRsYmw5MWMyVWlPaUpoWTJObGMzTWlMQ0p6WTI5d1pTSTZJbUYzY3k1amIyZHVhWFJ2TG5OcFoyNXBiaTUxYzJWeUxtRmtiV2x1SWl3aVlYVjBhRjkwYVcxbElqb3hOelF5TWpZME1Ua3lMQ0psZUhBaU9qRTNOREl5TmpjM09USXNJbWxoZENJNk1UYzBNakkyTkRFNU1pd2lhblJwSWpvaU1tTTNaRFk1TURVdFkyUXdOQzAwTkdKakxUaGtNMll0TVdVeU5HWm1OVGc1WTJSaklpd2lkWE5sY201aGJXVWlPaUoxWVhRdGNHOXdYMkZrYldsdUluMC5YV3VkMVdMU2hCSHl5Y0pUZjlxQVZZWVB6NlcwSmVCYzMtTVRqLVdfekZ0RmxHVTBDeWE4OE1tajU0LVFjczZlNHVEZEZKVmd5U3ZFNm5xLVNnUWRUSG82QWVwUGZLZnBKS1lUaHZVdlRtMUZ3RHVvMkhzTkNyT0ZUVVRRUlBIYnBIREoySGNrTUxvZ0xTYWgyWWpNV2c0aVNZSG5ycnE1ZGJ1NVQ4eWVhZ0JrYzZtRlVPMmZCOU5zV2lnM21lVEh0Z3hRcGk3NU1SUnRPWVh3c3hBeV9EQms4R0JGbmVNZVhzdEhJSTZTR2VYd1ItbjlKQU91VTBucDN2elNKWnl2RWJzVzNZclVNMWVaU3lISTRMWFNXODA5R0VrWlp5TGJwVjg4VHVPVHJ3UmdBeV83OU1zMW9uM1dzMWREWGRQYU0xSXlENUQxelBGSjBIMUl2UWwtc2ciLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJVQVQtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIycWRyb2dxc3YwMXFvdHMwajg0aXY0MGk3ZyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV9iRzRBbjJ1aGMiLCJpYXQiOjE3NDIyNjQxOTMsImFwcF9kYXRhIjp7ImVtcGxveWVlIjp7Il9pZCI6IjY3YzAwZTM2ZjFmZmQzZmU1NjBhNmMxZiIsImpvYl9yb2xlIjoiTWFuYWdlciIsImVtcGxveWVlX2lkIjoiRU1QMDAxMGtleWxhbmQiLCJhY2Nlc3NfY29kZSI6IjE2MDEyOSIsImZpcnN0X25hbWUiOiJNaWtlIiwibGFzdF9uYW1lIjoiTWFuYWdlciIsImVtYWlsIjoiIiwiaXNfYWN0aXZlIjp0cnVlLCJjb250YWN0X251bWJlciI6IjA5MDYwMjUyMTM1IiwibWVyY2hhbnQiOiJLdXlhIEoiLCJicmFuY2giOlt7Il9pZCI6IjU0IiwibmFtZSI6IktleWxhbmQifV0sImNyZWF0ZWRBdCI6IjIwMjUtMDItMjdUMTA6MDQ6NTkuMTI5WiIsInVwZGF0ZWRBdCI6IjIwMjUtMDItMjdUMTA6MDQ6NTkuMTI5WiJ9LCJ0ZXJtaW5hbF9pZCI6IjU5IiwiYnJhbmNoX2lkIjoiNTQifX0.qADwdLTuC6oGSxqFnR3AwftXwI8ITJPXr7ZmMk5HQQQ",
+
+  // service_env: "https://qa-parrotapiv2.serino.com",
+  // terminal_id: "48",
+  // branch_id: "47",
+  // employee_id: "844766",
+  // _id: "66c7038a64799ce61f7a24c0",
+  // first_name: "Damien",
+  // last_name: "Waters",
+  // merchant_id: "POP-0001",
+  // merchant: "Popeyes",
+  // device_code: "Popeyes-POS016",
+  // employee_code: "844766",
+  // table_id: "T101",
+  // name: "NU MAAX",
+  // sku: "POP20001",
+  // dining_option: "Dine-in",
+  // branch_location: "NU MAAX",
+  // source: "POS",
+  // platform: "POS",
+  // platform_details: "POS",
+  // ACCESS_TOKEN:
+  //   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoxMiwiYXBwcyI6IjEiLCJ0ZW5hbnRfaWQiOiIxIiwidG9rZW4iOiJleUpyYVdRaU9pSmhORTEzVGxReWFYbElZamRwTldOc01XWnpTbWMwWldJd1lVa3ljM2NyVm1KNGNtaHJkRzlCUWpCdlBTSXNJbUZzWnlJNklsSlRNalUySW4wLmV5SnpkV0lpT2lJellUUmpOR05tT0MwMFlURmlMVFF3WVRFdFlUY3pOQzFtWkRJd09HSXpaR1JtTkRjaUxDSnBjM01pT2lKb2RIUndjenBjTDF3dlkyOW5ibWwwYnkxcFpIQXVZWEF0YzI5MWRHaGxZWE4wTFRFdVlXMWhlbTl1WVhkekxtTnZiVnd2WVhBdGMyOTFkR2hsWVhOMExURmZhVWM1VDFFeldHVjFJaXdpWTJ4cFpXNTBYMmxrSWpvaU1XMXNOblJuWTNReWRuUjFkSEkwYm5Rek9HazRjV0oxYWpFaUxDSnZjbWxuYVc1ZmFuUnBJam9pTVdSaE4yUTROemN0WVdFeFppMDBOREptTFdFMU4yVXRaalpqT1RNMll6QTJPV1kxSWl3aVpYWmxiblJmYVdRaU9pSTNPR1V5T0RBNFpDMW1NVFE0TFRReU1qTXRPRGN5TXkwM1pHVTNZMkkzTkdGbU1HVWlMQ0owYjJ0bGJsOTFjMlVpT2lKaFkyTmxjM01pTENKelkyOXdaU0k2SW1GM2N5NWpiMmR1YVhSdkxuTnBaMjVwYmk1MWMyVnlMbUZrYldsdUlpd2lZWFYwYUY5MGFXMWxJam94TnpReE9EWXlOemN5TENKbGVIQWlPakUzTkRFNE5qWXpOeklzSW1saGRDSTZNVGMwTVRnMk1qYzNNaXdpYW5ScElqb2lOamd4TURjeVpUTXROamc0TVMwMFpHTmpMVGhsWkRFdFpETXlOekpoWmpRME4yRTVJaXdpZFhObGNtNWhiV1VpT2lKeFlTMXdiM0JmWVdSdGFXNGlmUS5rUnl2Y1hFVWJyRnEtZGRpTkx0YjlrWTEzd1dMc3MxaEp4UjhtY3lXSEt4anpQaHpYbDlJSm1rekpTcTVkWEU3TGNPSmxkbXRxQ29HanQ1VjY3UldXNFdDZk9uS3pxWkdESVZ2cXV2MnZCTjctRTA5ZGJQaFY2WFBBcnozS3pUdW1oZS1IcWZ5TGY3M2p1VzdLVlhoVkE5b3dHUDdONHFzeW1jWDBTa1ZVY1VEN0t4cS16cVo4WkVEQndZWkpvUUI5aDZOQVJfLW95M2tnSVRUNUtacW1IUmtCb2VFeU5UeEhGSWNMbzFVZHpuaWc3azdyZXhwOWg1cnRrT3dYdC1EUVV2bUpVZGgzd0tFNFNtMVE2YjdnOVFzMTF2Vm9BemFackdzMHllNnBXN1VNWlZ5UzdKaGhHOHZOcjl6Rm9RcEhPSjNlNXJmRHUyTERIMVhkNWl3YkEiLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJERVYtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIxbWw2dGdjdDJ2dHV0cjRudDM4aThxYnVqMSIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV9pRzlPUTNYZXUiLCJpYXQiOjE3NDE4NjI3NzIsImFwcF9kYXRhIjp7ImVtcGxveWVlIjp7Il9pZCI6IjY2YzcwMzhhNjQ3OTljZTYxZjdhMjRjMCIsImpvYl9yb2xlIjoiTWFuYWdlciIsImVtcGxveWVlX2lkIjoiODQ0NzY2IiwiYWNjZXNzX2NvZGUiOiI4NDQ3NjYiLCJmaXJzdF9uYW1lIjoiRGFtaWVuIiwibGFzdF9uYW1lIjoiV2F0ZXJzIiwiZW1haWwiOiJuaXBlbjk5OTI4QHlhaG9vLmNvbSIsImlzX2FjdGl2ZSI6dHJ1ZSwiY29udGFjdF9udW1iZXIiOiIwOTEyMzQ1Njc4OSIsIm1lcmNoYW50IjoiUG9wZXllcyIsImJyYW5jaCI6W3siX2lkIjoiMjI5IiwibmFtZSI6IkM1IEV4dGVuc2lvbiJ9LHsiX2lkIjoiMTIiLCJuYW1lIjoiT3RpcyJ9LHsiX2lkIjoiMzgiLCJuYW1lIjoiU00gTW9hIn0seyJfaWQiOiI5OTkiLCJuYW1lIjoiUG9wZXllcyBDQVMifSx7Il9pZCI6IjQ3IiwibmFtZSI6Ik5VIE1BQVgifSx7Il9pZCI6IjU0IiwibmFtZSI6IktST01BIn0seyJfaWQiOiIyMDMiLCJuYW1lIjoiS2V5bGFuZCJ9XSwiY3JlYXRlZEF0IjoiMjAyNC0wOC0yMlQwOToyMzoyMi40MDdaIiwidXBkYXRlZEF0IjoiMjAyNC0wOC0yMlQwOToyMzoyMi40MDdaIiwibWVyY2hhbnRfaWQiOiJQT1AtMDAwMSJ9LCJ0ZXJtaW5hbF9pZCI6IjQ4IiwiYnJhbmNoX2lkIjoiNDcifX0.0dQasv5vnSsD9kXDnb6LG7K-etUfcfdIcfFM8vhjQ-Q",
+  // service_env: "https://qa-parrotapiv2.serino.com",
+  // terminal_id: "1",
+  // branch_id: "12",
+  // employee_id: "689460",
+  // _id: "64b8ec06ba0914d053f3eb6a",
+  // first_name: "Yee",
+  // last_name: "Emp",
+  // merchant_id: "KJ-0001",
+  // merchant: "Kuya J",
+  // device_code: "KJ-WaiterAppp103",
+  // employee_code: "689460",
+  // table_id: "T101",
+  // name: "Otis",
+  // sku: "KJ100001",
+  // dining_option: "Dine-in",
+  // branch_location: "Otis",
+  // source: "POS",
+  // platform: "POS",
+  // platform_details: "POS",
+  // ACCESS_TOKEN:
+  //   "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SnJhV1FpT2lKaE5FMTNUbFF5YVhsSVlqZHBOV05zTVdaelNtYzBaV0l3WVVreWMzY3JWbUo0Y21ocmRHOUJRakJ2UFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKemRXSWlPaUk1WVdVMk0yRXpZUzFoTmpVM0xUUTFNR0l0WW1abFlpMWxOVFpsTTJKbU5qVTJPVFFpTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVlYQXRjMjkxZEdobFlYTjBMVEV1WVcxaGVtOXVZWGR6TG1OdmJWd3ZZWEF0YzI5MWRHaGxZWE4wTFRGZmFVYzVUMUV6V0dWMUlpd2lZMnhwWlc1MFgybGtJam9pTVcxc05uUm5ZM1F5ZG5SMWRISTBiblF6T0drNGNXSjFhakVpTENKdmNtbG5hVzVmYW5ScElqb2lPREJqWVdOak9HRXRZV000TkMwME5ETTJMV0l3T0RZdE9HSXlNR0UzTldVNE5UQmlJaXdpWlhabGJuUmZhV1FpT2lJNU5HWmhNakl5WXkweU1USXlMVFJtT0RJdE9XVTRNaTA0WVRRM1pEUXlNakkzWW1FaUxDSjBiMnRsYmw5MWMyVWlPaUpoWTJObGMzTWlMQ0p6WTI5d1pTSTZJbUYzY3k1amIyZHVhWFJ2TG5OcFoyNXBiaTUxYzJWeUxtRmtiV2x1SWl3aVlYVjBhRjkwYVcxbElqb3hOelF4T0RZeU56VTJMQ0psZUhBaU9qRTNOREU0TmpZek5UWXNJbWxoZENJNk1UYzBNVGcyTWpjMU5pd2lhblJwSWpvaVpEY3hPR1ppTURZdE16UXpPUzAwTUROakxXRXpNRGt0TUdWbU5HVmhPV1UzTXpKa0lpd2lkWE5sY201aGJXVWlPaUp4WVMxcmRYbGhhbDloWkcxcGJpSjkubzRlWFdmYmlsQm5SMVpuVEE5NmwwRW1QQm5ucGM5ODV2RG1hRzhYLTF2QUs3dUZQWjhtNkNDSXdzZHhqTk8yd0lYSWkwNG5BUUh1ZEtGZ1gxcDJvcV85NV9QaTZlenBNZndaMk0xWFRjR21rZEdubmprOERBYmtZcXZ6NWFhUHpBaUY0OWhTOWpxZk5CZXV0R3o5dGI3YmNmY3lwTWMzS3Rhbm5JaDdqNk9qM0tPV0NvX3NMQXlWZURkYS1OMXl6ODZ6d1dSUjNlQjlOOVBKUDhxVmFEVmhuMG9zaTdjeGpPRjFydTNDVlo2UEFoNVlFWEpCdndISkpXTWtYRUNSUTJITkRNSmlzdTg2WkFRMG5zZGx2aVJMUlZaMXpGUjg0NkRCSWd5VFBvcXE5S2Jza3hzUEFrTTFMa1VJRms3T2xQclNZR0ZvMTMwb3hqeUZLVnRFbVpRIiwic2VydmljZXMiOlt7ImlkIjoxLCJuYW1lIjoiREVWLVNFUklOTy1QT1MiLCJhbGlhcyI6IklETVMifV0sInJvbGUiOiJBZG1pbiIsIkNsaWVudElkIjoiMW1sNnRnY3QydnR1dHI0bnQzOGk4cWJ1ajEiLCJVc2VyUG9vbElkIjoiYXAtc291dGhlYXN0LTFfaUc5T1EzWGV1IiwiaWF0IjoxNzQxODYyNzU2LCJhcHBfZGF0YSI6eyJlbXBsb3llZSI6eyJfaWQiOiI2NGI4ZWMwNmJhMDkxNGQwNTNmM2ViNmEiLCJqb2Jfcm9sZSI6Ik1hbmFnZXIiLCJlbXBsb3llZV9pZCI6IkVNUDAwMiIsImFjY2Vzc19jb2RlIjoiNjg5NDYwIiwiZmlyc3RfbmFtZSI6IlllZSIsIm1pZGRsZV9uYW1lIjoiTG8iLCJsYXN0X25hbWUiOiJFbXAiLCJlbWFpbCI6ImVtcDAwMkBnbWFpbC5jb20iLCJpc19hY3RpdmUiOnRydWUsImNvbnRhY3RfbnVtYmVyIjoiOTI5MjkyMjkyOTkiLCJtZXJjaGFudCI6IktVWUEgSiIsImJyYW5jaCI6W3siX2lkIjoiMTIiLCJuYW1lIjoiT3RpcyJ9LHsiX2lkIjoiMTE0IiwibmFtZSI6IlBhcmsgU3F1YXJlIn0seyJfaWQiOiIzIiwibmFtZSI6IkJyYW5jaCBDIn0seyJfaWQiOiIxOCIsIm5hbWUiOiJTTSBCQUxJV0FHIn0seyJfaWQiOiIxMDAxIiwibmFtZSI6IlNNIFNBTiBQRURSTyJ9LHsiX2lkIjoiMTAzIiwibmFtZSI6IlNNIE1FR0FNQUxMIn0seyJfaWQiOiI3OCIsIm5hbWUiOiJTTSBMSVBBIn0seyJfaWQiOiI1NiIsIm5hbWUiOiJTTSBCQVRBTkdBUyJ9LHsiX2lkIjoiODAiLCJuYW1lIjoiU00gUEFNUEFOR0EifSx7Il9pZCI6IjQ3IiwibmFtZSI6Ik5VIE1BQVgifSx7Il9pZCI6IjIyOSIsIm5hbWUiOiJDNSBFeHRlbnNpb24ifSx7Il9pZCI6IjM4IiwibmFtZSI6IlNNIE1vYSJ9XSwibWVyY2hhbnRfaWQiOiJLSi0wMDAxIn0sInRlcm1pbmFsX2lkIjoiMTAzIiwiYnJhbmNoX2lkIjoiMTIifX0.JRtETdBdyH1uLZjlgfqWs1A2PZcQKvwrPNt_iUNWYzY",
+};
+
+const numUsers = 50;
+const result = {};
+
+for (let i = 1; i <= numUsers; i++) {
+  // result[`KJ_user${i}`] = { ...data };
+  result[`UAT_KJ_user${i}`] = { ...data };
+}
+
+// Define the output file path
+const filePath = "./datafile.json";
+
+// Write to a JSON file
+fs.writeFileSync(filePath, JSON.stringify(result, null, 2), "utf-8");
+
+console.log(`JSON file successfully generated at: ${filePath}`);

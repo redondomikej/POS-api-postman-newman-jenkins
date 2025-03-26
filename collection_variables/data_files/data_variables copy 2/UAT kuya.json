@@ -1,0 +1,17 @@
+{
+  "POS_KUYAJ_UAT_user1": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "uat-kuyaj_admin@yopmail.com",
+    "password": "oRbOEnV.",
+    "terminal_id": "103",
+    "access_code": "689460",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "KJ100001",
+    "dining_option": "Dine-in",
+    "branch_location": "Otis",
+    "source": "POS",
+    "platform": "POS",
+    "platform_details": "POS"
+  }
+}

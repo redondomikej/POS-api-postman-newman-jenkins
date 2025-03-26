@@ -1,0 +1,192 @@
+{
+	"info": {
+		"_postman_id": "4b3dcab7-a5ab-47d7-a804-cb22946e2971",
+		"name": "regress parrot create order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23164958"
+	},
+	"item": [
+		{
+			"name": "Create Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// // Get the current date and time\r",
+							"// const currentDate = new Date();\r",
+							"\r",
+							"// // Format the date and time as \"YYYY-MM-DD HH:mm:ss\"\r",
+							"// const formattedDateTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;\r",
+							"\r",
+							"// // Set the formatted date and time to a collection variable\r",
+							"// pm.collectionVariables.set(\"formattedDateTime\", formattedDateTime);\r",
+							"// console.log(\"Formatted Date and Time:\", formattedDateTime);\r",
+							"\r",
+							"\r",
+							"const payload = pm.iterationData.get(\"payload_request_data\");\r",
+							"pm.variables.set(\"stringified_payload_request_data\", JSON.stringify(payload));\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer {{EMPLOYEE_ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{{stringified_payload_request_data}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{PARROT}}/api/v1/orders"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CLAWS",
+			"value": "http://qa-clawsapi.serino.com/",
+			"type": "string"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SnJhV1FpT2lKMVkxUlBkR1V6V25jelJtSlFaV1oyVkdRNFMwMTZObmxJUjFaRVpUSTJhRUl3Y1haMFdUaEpPSEJOUFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKemRXSWlPaUppT1dWaE9UVXlZeTFqTUdReExUY3dOR0l0WVRBd1l5MWxPR1JrTmpoak9XVmxNamNpTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVlYQXRjMjkxZEdobFlYTjBMVEV1WVcxaGVtOXVZWGR6TG1OdmJWd3ZZWEF0YzI5MWRHaGxZWE4wTFRGZmVrcDJWbUkwWmtoVElpd2lZMnhwWlc1MFgybGtJam9pTXpNMFlqUmlOM1UwWW1KMU5HNXZOMlZpTmpCaWJUQnZjMk1pTENKdmNtbG5hVzVmYW5ScElqb2laR0V4TVRRMVltUXRZV1E1TnkwME1qUTRMV0UyWlRFdE56RXhNalF5WmpsaFpHUmtJaXdpWlhabGJuUmZhV1FpT2lJeU1XUXhPVGM1T1Mwd09UTmxMVFF6WXpJdE9EWTRZaTFoTURKbE9UaGhNV014WTJJaUxDSjBiMnRsYmw5MWMyVWlPaUpoWTJObGMzTWlMQ0p6WTI5d1pTSTZJbUYzY3k1amIyZHVhWFJ2TG5OcFoyNXBiaTUxYzJWeUxtRmtiV2x1SWl3aVlYVjBhRjkwYVcxbElqb3hOamt5TVRZek56UXdMQ0psZUhBaU9qRTJPVEl4Tmpjek5EQXNJbWxoZENJNk1UWTVNakUyTXpjME1Dd2lhblJwSWpvaU1URm1ZMk0yTURJdE0yWTBPUzAwTkRFeUxXSTVOMll0T0dZNU1qaGxaalpsTnpVM0lpd2lkWE5sY201aGJXVWlPaUprWlhZdGEzVjVZV3BmWVdSdGFXNGlmUS5qRGVkZmFQZnlFR3BnaXYyT3U3Tm8xb0liNVFxZl9OZWJLeG1kRHh1YWlGUlVsVzF5a0plTWFQQW50U0tRNE9yYU1yNDNoVmhQcWdnZ3JQMTlTY3k2ZFpHSVh0OEdLUUNaaEdrNXhsaml2XzdkOXNxVHljRVZZUmk4anJyVjA0WlNNOFExUml3VVQwTlE1T2pfNGFPTF9sVVdfUmpVVTFXLXlDZmlrbE1oME5ZYWFTOGNxMWVpZjAyNmxVZzNTOEhSd0dkVk5fSGZ4Y3ZyQjFWRXRaYl9NR09ZaVlaR2pFMEtqSmI4eGg3clZ0U0I0ZVRWYW1fdW9oSmJFclVEcDRMTlJBQVl5MU9kcTdxbW1TdjUyc3VQTVhadGRsZk5oWmRZWC1hQm1jTjFoZzJLRUIyWmhGV2tTX0ZicFFrMTFkcDc4cHdZRTJVUHBILTlXNmRDemZKNXciLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJERVYtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIzMzRiNGI3dTRiYnU0bm83ZWI2MGJtMG9zYyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV96SnZWYjRmSFMiLCJpYXQiOjE2OTIxNjM3NDB9.YjLCWK5cGit5KEpSkcKwhXlSncGFhC819P4RTvaYao8",
+			"type": "string"
+		},
+		{
+			"key": "EMS",
+			"value": "https://qa-emsapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "PARROT",
+			"value": "https://qa-parrotapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "PIMS",
+			"value": "https://qa-pimsapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "LOCAL",
+			"value": "http://localhost:3001",
+			"type": "string"
+		},
+		{
+			"key": "PARROTV2",
+			"value": "https://qa-parrotapiv2.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "LOCAL2",
+			"value": "http://localhost:3002",
+			"type": "string"
+		},
+		{
+			"key": "QA",
+			"value": "https://qa-parrotapiv2.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "random_uuid",
+			"value": ""
+		},
+		{
+			"key": "random_number",
+			"value": ""
+		},
+		{
+			"key": "table_id",
+			"value": ""
+		},
+		{
+			"key": "table_capacity",
+			"value": ""
+		},
+		{
+			"key": "employee_id",
+			"value": ""
+		},
+		{
+			"key": "access_code",
+			"value": ""
+		},
+		{
+			"key": "first_name",
+			"value": ""
+		},
+		{
+			"key": "last_name",
+			"value": ""
+		},
+		{
+			"key": "_id",
+			"value": ""
+		},
+		{
+			"key": "formattedDateTime",
+			"value": ""
+		},
+		{
+			"key": "cart_id",
+			"value": ""
+		},
+		{
+			"key": "item_id",
+			"value": ""
+		},
+		{
+			"key": "MERCHANT_ACCESS_TOKEN",
+			"value": ""
+		}
+	]
+}

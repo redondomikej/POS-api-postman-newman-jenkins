@@ -1,0 +1,32 @@
+{
+  "KuyaJ_DineIn": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-kuyaj_admin@yopmail.com",
+    "password": "5&JeqXPn",
+    "terminal_id": "26",
+    "access_code": "844766",
+    "branch_id": "54",
+    "name": "KROMA",
+    "sku": "POP20001",
+    "dining_option": "Dine-in",
+    "branch_location": "KROMA",
+    "source": "",
+    "platform": "",
+    "platform_details": ""
+  },
+  "KuyaJ_TakeOut": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-kuyaj_admin@yopmail.com",
+    "password": "5&JeqXPn",
+    "terminal_id": "26",
+    "access_code": "844766",
+    "branch_id": "54",
+    "name": "KROMA",
+    "sku": "POP20001",
+    "dining_option": "Take-out",
+    "branch_location": "KROMA",
+    "source": "",
+    "platform": "",
+    "platform_details": ""
+  }
+}

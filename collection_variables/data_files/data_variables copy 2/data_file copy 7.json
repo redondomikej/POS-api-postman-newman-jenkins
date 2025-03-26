@@ -1,0 +1,32 @@
+{
+  "POS_DineIn": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-pop_admin@yopmail.com",
+    "password": "qapopeyes",
+    "terminal_id": "26",
+    "access_code": "844766",
+    "branch_id": "54",
+    "name": "KROMA",
+    "sku": "POP10080",
+    "dining_option": "Dine-in",
+    "branch_location": "KROMA",
+    "source": "POS",
+    "platform": "POS",
+    "platform_details": "POS"
+  },
+  "POS_TakeOut": {
+    "service_env": "https://qa-parrotapiv2.serino.com",
+    "username": "qa-pop_admin@yopmail.com",
+    "password": "qapopeyes",
+    "terminal_id": "26",
+    "access_code": "844766",
+    "branch_id": "54",
+    "name": "KROMA",
+    "sku": "POP10080",
+    "dining_option": "Take-out",
+    "branch_location": "KROMA",
+    "source": "POS",
+    "platform": "POS",
+    "platform_details": "POS"
+  }
+}

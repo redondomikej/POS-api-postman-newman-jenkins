@@ -1,0 +1,17 @@
+{
+  "POS_KUYAJ_on_premise": {
+    "service_env": "http://192.168.112.13:6000",
+    "username": "lipa_kj@yopmail.com",
+    "password": "CHeRbsWO",
+    "terminal_id": "1",
+    "access_code": "928923",
+    "branch_id": "12",
+    "name": "Otis",
+    "sku": "1000000002",
+    "dining_option": "Dine-in",
+    "branch_location": "Otis",
+    "source": "POS",
+    "platform": "POS",
+    "platform_details": "POS"
+  }
+}

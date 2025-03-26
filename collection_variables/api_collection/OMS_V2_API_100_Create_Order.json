@@ -1,0 +1,204 @@
+{
+	"info": {
+		"_postman_id": "cabb2a59-c445-4459-9ad7-9b33cc79eeaf",
+		"name": "OMS V2 API - 1.0.0 Create Order",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23164958"
+	},
+	"item": [
+		{
+			"name": "Create Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"const publicKey = pm.collectionVariables.get('TENANT_PUBLIC_KEY');\r",
+							"const secretKey = pm.collectionVariables.get('TENANT_SECRET_KEY');\r",
+							"\r",
+							"const dataToHash = publicKey + ':' + secretKey;\r",
+							"console.log(dataToHash);\r",
+							"const basicToken = CryptoJS.SHA256(dataToHash).toString();\r",
+							"pm.collectionVariables.set('BASIC_TOKEN', basicToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic {{BASIC_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"uuid\": \"{{$randomUUID}}\",\r\n    \"order_status\": \"Pending\",\r\n    \"dining_option\": \"Dine-in\",\r\n    \"branch_location\": \"branch1\",\r\n    \"branch_id\": \"1\",\r\n    \"number_of_pax\": 4,\r\n    \"table_details\": {\r\n        \"table_ids\": [\r\n            \"T105\"\r\n        ]\r\n    },\r\n    \"items\": [\r\n        {\r\n            \"item_id\": \"{{$randomUUID}}\",\r\n            \"type\": \"basic_product\",\r\n            \"sku\": \"1000000001\",\r\n            \"barcode\": \"[\\\"\\\"]\",\r\n            \"name\": \"Ube Milkshake\",\r\n            \"description\": \"Kuya J's new summer shake characterized with sweet and creamy ube macapuno taste with pearl sinkers  *Contains ice blended beverage which may melt during delivery\",\r\n            \"quantity\": 1,\r\n            \"price\": 100,\r\n            \"instructions\": \"Less salt\",\r\n            \"item_status\": \"Pending\",\r\n            \"food_type\": \"Beverage\"\r\n        }\r\n    ],\r\n    \"employee_code\": \"CASHIER1\",\r\n    \"terminal_id\": \"1\",\r\n    \"payment_status\": \"Pending\",\r\n    \"history\": [\r\n        {\r\n            \"created_at\": \"{{$isoTimestamp}}\",\r\n            \"created_by\": \"cashier1\",\r\n            \"terminal_id\": \"1\",\r\n            \"details\": \"pending\",\r\n            \"type\": \"order_status\",\r\n            \"employee_code\": \"123\",\r\n            \"saved_to_omrs\": \"true\"\r\n        }\r\n    ],\r\n    \"currency\": \"PHP\",\r\n    \"total_amount\": 478.57,\r\n    \"sub_total_amount\": 500,\r\n    \"vatable_sales\": 223.21,\r\n    \"vat_amount\": 26.79,\r\n    \"vat_exempt_sales\": 223.21,\r\n    \"zero_rated_sales\": 0,\r\n    \"service_charge_amount\": 50,\r\n    \"less_vat_amount\": 0,\r\n    \"created_datetime\": \"{{$isoTimestamp}}\",\r\n    \"updated_datetime\": \"{{$isoTimestamp}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{ENDPOINT}}/api/v1/public/pk-326b29ce-d74d-4976-abf4-7e24c1198c7f/orders"
+			},
+			"response": [
+				{
+					"name": "Success",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic {{BASIC_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\": \"{{$randomUUID}}\",\r\n    \"order_status\": \"Pending\",\r\n    \"dining_option\": \"Dine-in\",\r\n    \"branch_location\": \"branch1\",\r\n    \"branch_id\": \"1\",\r\n    \"number_of_pax\": 4,\r\n    \"table_details\": {\r\n        \"table_ids\": [\r\n            \"T105\"\r\n        ]\r\n    },\r\n    \"items\": [\r\n        {\r\n            \"item_id\": \"{{$randomUUID}}\",\r\n            \"type\": \"basic_product\",\r\n            \"sku\": \"1000000001\",\r\n            \"barcode\": \"[\\\"\\\"]\",\r\n            \"name\": \"Ube Milkshake\",\r\n            \"description\": \"Kuya J's new summer shake characterized with sweet and creamy ube macapuno taste with pearl sinkers  *Contains ice blended beverage which may melt during delivery\",\r\n            \"quantity\": 1,\r\n            \"price\": 100,\r\n            \"instructions\": \"Less salt\",\r\n            \"item_status\": \"Pending\",\r\n            \"food_type\": \"Beverage\"\r\n        }\r\n    ],\r\n    \"employee_code\": \"CASHIER1\",\r\n    \"terminal_id\": \"1\",\r\n    \"payment_status\": \"Pending\",\r\n    \"history\": [\r\n        {\r\n            \"created_at\": \"{{$isoTimestamp}}\",\r\n            \"created_by\": \"cashier1\",\r\n            \"terminal_id\": \"1\",\r\n            \"details\": \"pending\",\r\n            \"type\": \"order_status\",\r\n            \"employee_code\": \"123\",\r\n            \"saved_to_omrs\": \"true\"\r\n        }\r\n    ],\r\n    \"currency\": \"PHP\",\r\n    \"total_amount\": 478.57,\r\n    \"sub_total_amount\": 500,\r\n    \"vatable_sales\": 223.21,\r\n    \"vat_amount\": 26.79,\r\n    \"vat_exempt_sales\": 223.21,\r\n    \"zero_rated_sales\": 0,\r\n    \"service_charge_amount\": 50,\r\n    \"less_vat_amount\": 0,\r\n    \"created_datetime\": \"{{$isoTimestamp}}\",\r\n    \"updated_datetime\": \"{{$isoTimestamp}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ENDPOINT}}/api/v1/public/pk-326b29ce-d74d-4976-abf4-7e24c1198c7f/orders"
+					},
+					"status": "Created",
+					"code": 201,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "1338"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 27 Aug 2024 00:15:03 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 201,\n    \"message\": \"Success\",\n    \"action_at\": \"2024-08-27T00:15:03.683Z\",\n    \"data\": {\n        \"tenant\": {\n            \"code\": \"TENANT_PARROT_DEV\",\n            \"name\": \"Parrot Dev\"\n        },\n        \"currency\": \"PHP\",\n        \"created_datetime\": \"2024-08-27T00:15:03.530Z\",\n        \"updated_datetime\": \"2024-08-27T00:15:03.530Z\",\n        \"uuid\": \"0a421b96-0f35-4a44-a724-34049b5f5474\",\n        \"order_status\": \"Pending\",\n        \"dining_option\": \"Dine-in\",\n        \"branch_location\": \"branch1\",\n        \"branch_id\": \"1\",\n        \"number_of_pax\": 4,\n        \"table_details\": {\n            \"table_ids\": [\n                \"T105\"\n            ]\n        },\n        \"items\": [\n            {\n                \"item_id\": \"4e386ee2-561f-4e68-aad7-a3aa45b62139\",\n                \"type\": \"basic_product\",\n                \"sku\": \"1000000001\",\n                \"barcode\": \"[\\\"\\\"]\",\n                \"name\": \"Ube Milkshake\",\n                \"description\": \"Kuya J's new summer shake characterized with sweet and creamy ube macapuno taste with pearl sinkers  *Contains ice blended beverage which may melt during delivery\",\n                \"quantity\": 1,\n                \"price\": 100,\n                \"instructions\": \"Less salt\",\n                \"item_status\": \"Pending\",\n                \"food_type\": \"Beverage\"\n            }\n        ],\n        \"employee_code\": \"CASHIER1\",\n        \"terminal_id\": \"1\",\n        \"payment_status\": \"Pending\",\n        \"history\": [\n            {\n                \"created_at\": \"2024-08-27T00:15:03.530Z\",\n                \"created_by\": \"cashier1\",\n                \"terminal_id\": \"1\",\n                \"details\": \"pending\",\n                \"type\": \"order_status\",\n                \"employee_code\": \"123\"\n            }\n        ],\n        \"delivery\": [],\n        \"total_amount\": 478.57,\n        \"sub_total_amount\": 500,\n        \"vatable_sales\": 223.21,\n        \"vat_amount\": 26.79,\n        \"vat_exempt_sales\": 223.21,\n        \"zero_rated_sales\": 0,\n        \"service_charge_amount\": 50,\n        \"less_vat_amount\": 0,\n        \"_id\": \"66cd1a8799a2df01b6fe325e\",\n        \"__v\": 0\n    }\n}"
+				},
+				{
+					"name": "Failed",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Basic {{BASIC_TOKEN}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"order_status\": \"Pending\",\r\n    \"dining_option\": \"Dine-in\",\r\n    \"branch_location\": \"branch1\",\r\n    \"branch_id\": \"1\",\r\n    \"number_of_pax\": 4,\r\n    \"table_details\": {\r\n        \"table_ids\": [\r\n            \"T105\"\r\n        ]\r\n    },\r\n    \"items\": [\r\n        {\r\n            \"item_id\": \"{{$randomUUID}}\",\r\n            \"type\": \"basic_product\",\r\n            \"sku\": \"1000000001\",\r\n            \"barcode\": \"[\\\"\\\"]\",\r\n            \"name\": \"Ube Milkshake\",\r\n            \"description\": \"Kuya J's new summer shake characterized with sweet and creamy ube macapuno taste with pearl sinkers  *Contains ice blended beverage which may melt during delivery\",\r\n            \"quantity\": 1,\r\n            \"price\": 100,\r\n            \"instructions\": \"Less salt\",\r\n            \"item_status\": \"Pending\",\r\n            \"food_type\": \"Beverage\"\r\n        }\r\n    ],\r\n    \"employee_code\": \"CASHIER1\",\r\n    \"terminal_id\": \"1\",\r\n    \"payment_status\": \"Pending\",\r\n    \"history\": [\r\n        {\r\n            \"created_at\": \"{{$isoTimestamp}}\",\r\n            \"created_by\": \"cashier1\",\r\n            \"terminal_id\": \"1\",\r\n            \"details\": \"pending\",\r\n            \"type\": \"order_status\",\r\n            \"employee_code\": \"123\",\r\n            \"saved_to_omrs\": \"true\"\r\n        }\r\n    ],\r\n    \"currency\": \"PHP\",\r\n    \"total_amount\": 478.57,\r\n    \"sub_total_amount\": 500,\r\n    \"vatable_sales\": 223.21,\r\n    \"vat_amount\": 26.79,\r\n    \"vat_exempt_sales\": 223.21,\r\n    \"zero_rated_sales\": 0,\r\n    \"service_charge_amount\": 50,\r\n    \"less_vat_amount\": 0,\r\n    \"created_datetime\": \"{{$isoTimestamp}}\",\r\n    \"updated_datetime\": \"{{$isoTimestamp}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{ENDPOINT}}/api/v1/public/pk-326b29ce-d74d-4976-abf4-7e24c1198c7f/orders"
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "access-control-allow-origin",
+							"value": "*"
+						},
+						{
+							"key": "content-type",
+							"value": "application/json; charset=utf-8"
+						},
+						{
+							"key": "content-length",
+							"value": "108"
+						},
+						{
+							"key": "Date",
+							"value": "Tue, 27 Aug 2024 00:44:59 GMT"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=72"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 400,\n    \"message\": \"Failed\",\n    \"reason\": \"uuid should not be empty\",\n    \"action_at\": \"2024-08-27T00:44:59.430Z\"\n}"
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "ENDPOINT",
+			"value": "https://dev-omsapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "TENANT_PUBLIC_KEY",
+			"value": "pk-326b29ce-d74d-4976-abf4-7e24c1198c7f",
+			"type": "string"
+		},
+		{
+			"key": "TENANT_SECRET_KEY",
+			"value": "sk-c4c09b40-c997-4e8e-9d84-d907d7de38da",
+			"type": "string"
+		},
+		{
+			"key": "BASIC_TOKEN",
+			"value": ""
+		}
+	]
+}

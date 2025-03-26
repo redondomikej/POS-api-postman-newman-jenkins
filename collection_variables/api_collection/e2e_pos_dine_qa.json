@@ -1,0 +1,965 @@
+{
+	"info": {
+		"_postman_id": "867567a1-3e11-44f5-b4b2-873e829b0e33",
+		"name": "01_E2E_POS_EVO_DineIn",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23164958"
+	},
+	"item": [
+		{
+			"name": "Merchant Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.collectionVariables.set('MERCHANT_ACCESS_TOKEN', 'Bearer ' + pm.response.json().data.AccessToken);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"username\": \"qa-kuyaj_admin@yopmail.com\",\r\n    \"password\": \"5&JeqXPn\",\r\n    \"terminal_id\": \"{{terminal_id}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{PARROTV2}}/api/v1/auth/login"
+			},
+			"response": []
+		},
+		{
+			"name": "Employee Login",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"// Generate a random UUID\r",
+							"const randomUUID = generateUUID();\r",
+							"function generateUUID() {\r",
+							"    let uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {\r",
+							"        let r = Math.random() * 16 | 0,\r",
+							"            v = c == 'x' ? r : (r & 0x3 | 0x8);\r",
+							"        return v.toString(16);\r",
+							"    });\r",
+							"    return uuid;\r",
+							"}\r",
+							"\r",
+							"// Generate a random number between 1000 and 9999 for a dynamic number\r",
+							"const randomNumber = Math.floor(Math.random() * 9000) + 1000;\r",
+							"\r",
+							"let responseJson = pm.response.json();\r",
+							"pm.collectionVariables.set(\"ACCESS_TOKEN\", \"Bearer \" + responseJson.data.AccessToken);\r",
+							"pm.collectionVariables.set(\"random_uuid\", randomUUID);\r",
+							"pm.collectionVariables.set(\"random_number\", randomNumber.toString());\r",
+							"\r",
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"let employee_id_data = responsedata.data.employee_id;\r",
+							"pm.collectionVariables.set(\"employee_id\", employee_id_data);\r",
+							"\r",
+							"let access_code_data = responsedata.data.access_code;\r",
+							"pm.collectionVariables.set(\"access_code\", access_code_data);\r",
+							"\r",
+							"let first_name_data = responsedata.data.first_name;\r",
+							"pm.collectionVariables.set(\"first_name\", first_name_data);\r",
+							"\r",
+							"let last_name_data = responsedata.data.last_name;\r",
+							"pm.collectionVariables.set(\"last_name\", last_name_data);\r",
+							"\r",
+							"let _id_data = responsedata.data._id;\r",
+							"pm.collectionVariables.set(\"_id\", _id_data);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{MERCHANT_ACCESS_TOKEN}}"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"access_code\": \"689460\",\r\n    \"refresh_token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjozLCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SmpkSGtpT2lKS1YxUWlMQ0psYm1NaU9pSkJNalUyUjBOTklpd2lZV3huSWpvaVVsTkJMVTlCUlZBaWZRLkw2OEV5NTIzb0NzT2s5MVRkY2ZKZXdNMWI2SjZMTE1Xd3dlTGNJaUZERjNYWkpubGs4V0UxVmJYSHVnS1hnVG5NS2hPakpJSFhTbVNWQ0JJWk52eXpUb1NhMzBoczlkRHEzc1Z6RW9WX1NFVXU0encwdjBqYU5jbDNXOEVaNnpjdGk0NDZzQlJhOEFlS25BcFpXMEZLc2d1VHpZa0FXbDNtXzJvWTFvajJTcEJoUzlTc09zUWtpQmpqdHRaMkQ2bUdtcUZxZUxSVUNYZzFOcTlfMHJlczlJUkNVbm0tb2ViM1RuUVlOYnhIVEtlN0RJeDQ1a2k4Rl9BaVpBeHpuQ1EwMzRkQ1BRTjVDTkVxYlVVV2JJUUVoZGlrNzh6SVE0bXZVNU1HLWRrbjdXOTBTUFVIQ2EwYURDaC0wM1FrajB2N3k5T3RMX2xCendmRWd1bHpkSUgxQS5oU2NyVjVmNnlNWlNVTHgtLmFKeldES0Rkd2Z6ZGVfUk5hM3lFdW1CQ1RxUGxDZGpzS3Y0MFNKZzNuTVBPdU9sSktFd0pQVV8ybkhuaEh6Uy1NQXJ1STdST3R5ckFDTnFkeUhFaU1RSFJ2dm9iaWdZLWROMFZuYjEwWmozR3ZfeGJoUk5FYVFuNm9TYmY0LXVnWGxQVVdrdGxHbF9lSXk1OFNzeHl6T29LSUg3bWE1SGNGSkZZcHJWbjB6M2d1WDBtSzN1WllCcUVRaUkxY1luWklObEFHRjJuM1Vlb3UzTVBUSVcxcXNNMWtHUW5DNHBELXFkbWoyakMwLVc5QjZCZXd0bUVmRkxxQWZiWVI1WVZtRWhNcjVqYTVPNm40MkpGR05FVGVLdnNOc0lqZm0wRWVGQkFKMVVwMTZIQjlDaE01Q3JRN3BFZFVHVjFBckhvUWZYMTIwalhsZUJrOGxaUWFZaHpReFJaWXJ0UmsyOW9CcTlaTnYxNG1jdDN6TVJjbVRqRVdSQ0dHQUwtUTFfTm52c1JNM0ZGODAzUEFKaXA0dGNyWWpyMDlVNlJubHZoMjBTTnp1Uk1JX2pobUVmQlhOd0pUVzUtaTJEUE9zRkFiV3lhcUdEWFdpS3Q1MXoxSFItSWtfRkZ6VkJqdG80RWNaMWNBLUtZR1VtVnVRZWhHUnpmTXFLc2NWTXZMUUNQcDA0eENPdFhfMFFsblU0WF9DRGFBd0M5czFGTTQ1eWhGTFF5Mkt0QUxmNEJfQlE3Qmh3R2Zqa0h5ajhwMTgxdmRySDJVbUFvQTktN2pZZE85b0J0U2w0cUpMRXBBU1R2QnlwNmpxVG9zMFBnWjVwSW5uRDhHTllSX3NpR2lGLWt1Qmx5eENaa2RoYWNqSExnaWVRNWxJRVltTE9teU8zYzZLVzhvRS1QWXV4VWprNUp0T1Y5X1V4dXd2ZXJXUmN5OHFHY1dTeGtDWXY3blNheVRqSEF3T281c0tXMlBYU3NRWG1ILWlWOGhtWTc2RXlTS3dVaklTSU9yaVBQUEh1aGJZWl9NWHZxWnlHZmNXQTJTZzllbV95ckdKWXVtMG03NjlFZFQxdU5hQWJpdnZiVXlNakNVTnlXSnF6OWEyNXhhc3VvSWFZSnBNQU1BUXRlcTZtVHRhRVhBY19uM0ZmZi1BY2o2VFg5b25LaFJaSlROUTdpRFY3TS1MUUVjcThyUVZ1ZU1Cd0JtZVhMazYxbEp1dnctQ2xiYnpLSkFYR2VjV0k2WElZcGFJRUhXUDNxV3dYb0RhYjBteFZpT3puazRKYkE5bmtLa2VWRHREZU16NnJUdTFxcWdjQXBCX3l4WjRuaUNxd0FQWVRzV1pMb1RaLW1xOEFPa0Z2WjQyekFFZGJBTnRJY09yMDNZc1BsMXVGV3ZGNjV5WVJQd0hSWGZzaTJvQzgtalZzaVYtUmQ2RGgtWTZXN1NTbURHRFJ1TGxIN2trWFRicFdKckl2LWRNVmtxR29TVThDeG1CbHN6VFhwRF90LVhpMm5WYXZHWlN2UEI5U29LUVd6WDZFcjdzeXBzNnRSVU84RWU3bFBzSmlwV2J3ZFFtNHRtSTVXSkliWUd4bWJKeE9oaFplZXBEWVlqNFRScVRKTXpaNFdUT2YxejczQUoxYWVxQ0FJWUZEd2RialFKWEV3NVBkODhZc09EVEJnOFFXQWhFbWZDaUw0Q2VXTnRGamJPRWRMMURJdGNkczR6bTdkdXZ1eGVHYWF3TnlraGtKUlQ0aUEySlhSdm5KMTJMMC1zQWFOclBZLkdLSFdmMDFZSWJ2T2VIS09USUgtWnciLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJERVYtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIzMzRiNGI3dTRiYnU0bm83ZWI2MGJtMG9zYyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV96SnZWYjRmSFMiLCJpYXQiOjE3MTc0NzY3ODksImFwcF9kYXRhIjp7InRlcm1pbmFsX2lkIjoiMTAifX0.1acqsPNv0pQ7uFxoad3kVWQ1Vc0X3080HEkBbuTR5WA\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v1/auth/employee-login"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product by Branch ID and Sku",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					},
+					{
+						"key": "branch_id",
+						"value": "12",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": "{{QA}}/api/v1/products/branch/{{branch_id}}/sku/{{sku}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Table Status to Available",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"\r",
+							"let table_id_data = responsedata.data.success[0].table_id;\r",
+							"pm.collectionVariables.set(\"table_id\", table_id_data);\r",
+							"\r",
+							"let table_capacity_data = responsedata.data.success[0].table_capacity;\r",
+							"pm.collectionVariables.set(\"table_capacity\", table_capacity_data);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": [\r\n        {\r\n                \"table_number\": \"Table 1\",\r\n                \"table_capacity\": 2,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T101\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 2\",\r\n                \"table_capacity\": 2,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T102\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 3\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T103\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 4\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T104\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 5\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T105\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 6\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T106\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 7\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T107\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 8\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T108\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 9\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T109\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 10\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T110\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 11\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T111\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 12\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T112\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 13\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T113\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 14\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T114\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 15\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T115\",\r\n                \"order_id\": \"\"\r\n            }\r\n    ],\r\n    \"emitter\": \"sampleEmitter\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v1/tables/status/merchant/{{merchant_id}}/branch/{{branch_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Create Order",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Get the current date and time\r",
+							"const currentDate = new Date();\r",
+							"\r",
+							"// Format the date and time as \"YYYY-MM-DD HH:mm:ss\"\r",
+							"const formattedDateTime = `${currentDate.getFullYear()}-${(currentDate.getMonth() + 1).toString().padStart(2, '0')}-${currentDate.getDate().toString().padStart(2, '0')} ${currentDate.getHours().toString().padStart(2, '0')}:${currentDate.getMinutes().toString().padStart(2, '0')}:${currentDate.getSeconds().toString().padStart(2, '0')}`;\r",
+							"\r",
+							"// Set the formatted date and time to a collection variable\r",
+							"pm.collectionVariables.set(\"formattedDateTime\", formattedDateTime);\r",
+							"console.log(\"Formatted Date and Time:\", formattedDateTime);\r",
+							"\r",
+							"\r",
+							"// Generate a random or_number (a 10-digit random number)\r",
+							"let or_number = Math.floor(1000000000 + Math.random() * 9000000000);  // Generates a 10-digit random number\r",
+							"// Save this or_number as a collection variable\r",
+							"pm.collectionVariables.set(\"or_number\", or_number);\r",
+							"// Log the or_number to Postman's console for debugging (optional)\r",
+							"console.log(\"Generated OR Number:\", or_number);\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(201);\r",
+							"});\r",
+							"\r",
+							"let responsedata = pm.response.json();\r",
+							"\r",
+							"let cart_id_data = responsedata.data[0].cart_id;\r",
+							"pm.collectionVariables.set(\"cart_id\", cart_id_data);\r",
+							"\r",
+							"let item_id_data = responsedata.data[0].items[0].item_id;\r",
+							"pm.collectionVariables.set(\"item_id\", item_id_data);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"action\": \"create-order\",\r\n    \"order_details\": [\r\n        {\r\n            \"_id\": 0,\r\n            \"uuid\": \"{{random_uuid}}\",\r\n            \"order_id\": 0,\r\n            \"version\": 1,\r\n            \"terminal_id\": \"{{terminal_id}}\",\r\n            \"merchant_id\": \"{{merchant_id}}\",\r\n            \"employee_code\": \"{{employee_id}}\",\r\n            \"employee_name\": \"{{first_name}} {{last_name}}\",\r\n            \"oms_account_id\": \"4\",\r\n            \"merchant\": \"KUYA J\",\r\n            \"branch_id\": \"{{branch_id}}\",\r\n            \"currency\": \"PHP\",\r\n            \"payment_status\": \"Pending\",\r\n            \"mode_of_payment\": \"\",\r\n            \"payment_network\": \"\",\r\n            \"approval_code\": \"\",\r\n            \"created_datetime\": \"{{formattedDateTime}}\",\r\n            \"order_status\": \"Pending\",\r\n            \"or_number\": \"{{or_number}}\",\r\n            \"tracking_number\": \"\",\r\n            \"reference_1\": \"\",\r\n            \"order_acceptance_status\": \"accepted\",\r\n            \"dining_option\": \"Dine-in\",\r\n            \"branch_location\": \"OTIS\",\r\n            \"number_of_pax\": 1,\r\n            \"table_details\": {\r\n                \"table_ids\": [\r\n                    \"{{table_id}}\"\r\n                ],\r\n                \"occupied_at\": \"{{formattedDateTime}}\"\r\n            },\r\n            \"number_of_split_bill\": 0,\r\n            \"cart_id\": \"\",\r\n            \"customer_tin\": \"\",\r\n            \"print_count\": 0,\r\n            \"fees_and_adjustment\": [],\r\n            \"kds_history\": [],\r\n            \"kds_f_history\": [],\r\n            \"kds_b_history\": [],\r\n            \"history\": [\r\n                {\r\n                    \"created_at\": \"{{formattedDateTime}}\",\r\n                    \"created_by\": \"{{_id}}\",\r\n                    \"terminal_id\": \"{{terminal_id}}\",\r\n                    \"details\": \"Pending\",\r\n                    \"type\": \"order_status\",\r\n                    \"employee_code\": \"{{employee_id}}\",\r\n                    \"saved_to_omrs\": \"true\"\r\n                }\r\n            ],\r\n            \"store_reference_id\": \"\",\r\n            \"merchant_reference_id\": \"\",\r\n            \"fulfillment_type\": \"\",\r\n            \"change_for\": \"\",\r\n            \"shipping_address\": {\r\n                \"full_address\": \"\",\r\n                \"pinned_address\": \"\",\r\n                \"region\": \"\",\r\n                \"city\": \"\",\r\n                \"barangay\": \"\",\r\n                \"street\": \"\",\r\n                \"landmark\": \"\",\r\n                \"zip_code\": \"\",\r\n                \"latitude\": 0,\r\n                \"longitude\": 0,\r\n                \"details\": \"\"\r\n            },\r\n            \"customer\": {\r\n                \"first_name\": \"Rojen\",\r\n                \"last_name\": \"De Luna\",\r\n                \"email\": \"rojen.deluna@serino.com\",\r\n                \"contact_number\": \"09382239911\",\r\n                \"fullname\": \"Rojen De Luna\",\r\n                \"delivery_address\": \"Arayat Gate, North Expressway, San Fernando, 2000, Pampanga, PH\",\r\n                \"tin\": \"\",\r\n                \"senior_citizen_name\": [],\r\n                \"senior_citizen_id\": [],\r\n                \"senior_citizen_tin\": [],\r\n                \"pwd_name\": [],\r\n                \"pwd_id\": [],\r\n                \"pwd_tin\": [],\r\n                \"number_of_pax\": 1\r\n            },\r\n            \"schedule\": \"{{formattedDateTime}}\",\r\n            \"reservation_reference\": \"\",\r\n            \"notes\": [],\r\n            \"items\": [\r\n                                {\r\n                    \"type\": \"basic_product\",\r\n                    \"reference_id\": \"1\",\r\n                    \"sku\": \"{{sku}}\",\r\n                    \"barcode\": \"[\\\"\\\"]\",\r\n                    \"name\": \"Kuya J Lumpia Presko\",\r\n                    \"description\": \"Sauteed crabmeat and bamboo shoots in malunggay-infused wrapper drizzled with sweet garlic sauce.\",\r\n                    \"quantity\": 1,\r\n                    \"price\": 159,\r\n                    \"image\": \"\",\r\n                    \"options\": \"\",\r\n                    \"instructions\": \"Less salt\",\r\n                    \"reference_1\": \"\",\r\n                    \"reference_2\": \"\",\r\n                    \"reference_3\": \"\",\r\n                    \"item_status\": \"Pending\",\r\n                    \"food_type\": \"Food\",\r\n                    \"bundle\": []\r\n                }\r\n            ],\r\n            \"delivery\": [],\r\n            \"action_to_proceed\": \"\",\r\n            \"source\": \"OTIS\",\r\n            \"platform\": \"OTIS\",\r\n            \"platform_details\": \"OTIS\",\r\n            \"sub_total_amount\": 159,\r\n            \"vatable_sales\": 141.96,\r\n            \"vat_amount\": 17.04,\r\n            \"vat_exempt_sales\": 0,\r\n            \"zero_rated_sales\": 0,\r\n            \"total_amount\": 173.20,\r\n            \"service_charge_amount\": 14.20,\r\n            \"less_vat_amount\": \"0.00\"\r\n        }\r\n    ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v1/orders"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Table Status to Occupied",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": [\r\n        {\r\n                \"table_number\": \"Table 1\",\r\n                \"table_capacity\": 2,\r\n                \"status\": \"occupied\",\r\n                \"table_id\": \"T101\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 2\",\r\n                \"table_capacity\": 2,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T102\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 3\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T103\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 4\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T104\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 5\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T105\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 6\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T106\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 7\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T107\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 8\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T108\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 9\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T109\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 10\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T110\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 11\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T111\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 12\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T112\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 13\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T113\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 14\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T114\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 15\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T115\",\r\n                \"order_id\": \"\"\r\n            }\r\n    ],\r\n    \"emitter\": \"sampleEmitter\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v1/tables/status/merchant/{{merchant_id}}/branch/{{branch_id}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Accept & Prepare Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"order_status\": \"{{accept_status}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/order_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Accept & Prepare Item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"item_status\": \"{{accept_status}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/items/{{item_id}}/item_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify if Status is Accepted & Prepared",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify if Status is Accepted & Prepared\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"\r",
+							"    // Validate data.order_status is \"Preparing\"\r",
+							"    pm.expect(responseData.data.order_status).to.eql(\"Preparing\");\r",
+							"\r",
+							"    // Validate data.items[0].item_status is \"Preparing\"\r",
+							"    pm.expect(responseData.data.items[0].item_status).to.eql(\"Preparing\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{QA}}/api/v1/orders/{{random_uuid}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Ready Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"order_status\": \"{{ready_status}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/order_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Ready Item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"item_status\": \"{{item_ready}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/items/{{item_id}}/item_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify if Status is Readied",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify if Status is Readied\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"\r",
+							"    // Validate data.order_status is \"Ready\"\r",
+							"    pm.expect(responseData.data.order_status).to.eql(\"Ready\");\r",
+							"\r",
+							"    // Validate data.items[0].item_status is \"Item Ready\"\r",
+							"    pm.expect(responseData.data.items[0].item_status).to.eql(\"Item Ready\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{QA}}/api/v1/orders/{{random_uuid}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Serve Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"order_status\": \"{{serve_order}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/order_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Serve Item",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"item_status\": \"{{item_serve}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/items/{{item_id}}/item_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify if Status is Served",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify if Status is Served\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"\r",
+							"    // Validate data.order_status is \"Served\"\r",
+							"    pm.expect(responseData.data.order_status).to.eql(\"Served\");\r",
+							"\r",
+							"    // Validate data.items[0].item_status is \"Served\"\r",
+							"    pm.expect(responseData.data.items[0].item_status).to.eql(\"Served\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{QA}}/api/v1/orders/{{random_uuid}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Complete Order",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"order_status\": \"{{complete_order}}\",\r\n    \"override_item_status\":false\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/order_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify if Order is Completed",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify if Order is Completed\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"\r",
+							"    // Validate data.order_status is \"Completed\"\r",
+							"    pm.expect(responseData.data.order_status).to.eql(\"Completed\");\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{QA}}/api/v1/orders/{{random_uuid}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Payment Status",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"device_code\": \"{{device_code}}\",\r\n    \"employee_code\": \"{{access_code}}\",\r\n    \"terminal_id\": \"{{terminal_id}}\",\r\n    \"payment_status\": \"{{payment_status}}\",\r\n    \"or_number\":\"{{or_number}}\",\r\n    \"payment_network\":\"\",\r\n    \"approval_code\":\"\",\r\n    \"change_for\":\"\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v2/orders/{{cart_id}}/payment_status"
+			},
+			"response": []
+		},
+		{
+			"name": "Verify if Order is Paid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Verify if Order is Paid\", function () {\r",
+							"    var responseData = pm.response.json();\r",
+							"\r",
+							"    // Validate data.payment_status is \"Completed\"\r",
+							"    pm.expect(responseData.data.payment_status).to.eql(\"Paid\");\r",
+							"    \r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "text"
+					}
+				],
+				"url": "{{QA}}/api/v1/orders/{{random_uuid}}"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Table Status to ReAvailable",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code: \" + pm.response.code, function(){\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "{{ACCESS_TOKEN}}",
+						"type": "default"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"data\": [\r\n        {\r\n                \"table_number\": \"Table 1\",\r\n                \"table_capacity\": 2,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T101\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 2\",\r\n                \"table_capacity\": 2,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T102\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 3\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T103\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 4\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T104\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 5\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T105\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 6\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T106\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 7\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T107\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 8\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T108\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 9\",\r\n                \"table_capacity\": 6,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T109\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 10\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T110\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 11\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T111\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 12\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T112\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 13\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T113\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 14\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T114\",\r\n                \"order_id\": \"\"\r\n            },\r\n            {\r\n                \"table_number\": \"Table 15\",\r\n                \"table_capacity\": 4,\r\n                \"status\": \"available\",\r\n                \"table_id\": \"T115\",\r\n                \"order_id\": \"\"\r\n            }\r\n    ],\r\n    \"emitter\": \"sampleEmitter\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "{{QA}}/api/v1/tables/status/merchant/{{merchant_id}}/branch/{{branch_id}}"
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CLAWS",
+			"value": "http://qa-clawsapi.serino.com/",
+			"type": "string"
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoyLCJhcHBzIjoiMSIsInRlbmFudF9pZCI6IjEiLCJ0b2tlbiI6ImV5SnJhV1FpT2lKMVkxUlBkR1V6V25jelJtSlFaV1oyVkdRNFMwMTZObmxJUjFaRVpUSTJhRUl3Y1haMFdUaEpPSEJOUFNJc0ltRnNaeUk2SWxKVE1qVTJJbjAuZXlKemRXSWlPaUppT1dWaE9UVXlZeTFqTUdReExUY3dOR0l0WVRBd1l5MWxPR1JrTmpoak9XVmxNamNpTENKcGMzTWlPaUpvZEhSd2N6cGNMMXd2WTI5bmJtbDBieTFwWkhBdVlYQXRjMjkxZEdobFlYTjBMVEV1WVcxaGVtOXVZWGR6TG1OdmJWd3ZZWEF0YzI5MWRHaGxZWE4wTFRGZmVrcDJWbUkwWmtoVElpd2lZMnhwWlc1MFgybGtJam9pTXpNMFlqUmlOM1UwWW1KMU5HNXZOMlZpTmpCaWJUQnZjMk1pTENKdmNtbG5hVzVmYW5ScElqb2laR0V4TVRRMVltUXRZV1E1TnkwME1qUTRMV0UyWlRFdE56RXhNalF5WmpsaFpHUmtJaXdpWlhabGJuUmZhV1FpT2lJeU1XUXhPVGM1T1Mwd09UTmxMVFF6WXpJdE9EWTRZaTFoTURKbE9UaGhNV014WTJJaUxDSjBiMnRsYmw5MWMyVWlPaUpoWTJObGMzTWlMQ0p6WTI5d1pTSTZJbUYzY3k1amIyZHVhWFJ2TG5OcFoyNXBiaTUxYzJWeUxtRmtiV2x1SWl3aVlYVjBhRjkwYVcxbElqb3hOamt5TVRZek56UXdMQ0psZUhBaU9qRTJPVEl4Tmpjek5EQXNJbWxoZENJNk1UWTVNakUyTXpjME1Dd2lhblJwSWpvaU1URm1ZMk0yTURJdE0yWTBPUzAwTkRFeUxXSTVOMll0T0dZNU1qaGxaalpsTnpVM0lpd2lkWE5sY201aGJXVWlPaUprWlhZdGEzVjVZV3BmWVdSdGFXNGlmUS5qRGVkZmFQZnlFR3BnaXYyT3U3Tm8xb0liNVFxZl9OZWJLeG1kRHh1YWlGUlVsVzF5a0plTWFQQW50U0tRNE9yYU1yNDNoVmhQcWdnZ3JQMTlTY3k2ZFpHSVh0OEdLUUNaaEdrNXhsaml2XzdkOXNxVHljRVZZUmk4anJyVjA0WlNNOFExUml3VVQwTlE1T2pfNGFPTF9sVVdfUmpVVTFXLXlDZmlrbE1oME5ZYWFTOGNxMWVpZjAyNmxVZzNTOEhSd0dkVk5fSGZ4Y3ZyQjFWRXRaYl9NR09ZaVlaR2pFMEtqSmI4eGg3clZ0U0I0ZVRWYW1fdW9oSmJFclVEcDRMTlJBQVl5MU9kcTdxbW1TdjUyc3VQTVhadGRsZk5oWmRZWC1hQm1jTjFoZzJLRUIyWmhGV2tTX0ZicFFrMTFkcDc4cHdZRTJVUHBILTlXNmRDemZKNXciLCJzZXJ2aWNlcyI6W3siaWQiOjEsIm5hbWUiOiJERVYtU0VSSU5PLVBPUyIsImFsaWFzIjoiSURNUyJ9XSwicm9sZSI6IkFkbWluIiwiQ2xpZW50SWQiOiIzMzRiNGI3dTRiYnU0bm83ZWI2MGJtMG9zYyIsIlVzZXJQb29sSWQiOiJhcC1zb3V0aGVhc3QtMV96SnZWYjRmSFMiLCJpYXQiOjE2OTIxNjM3NDB9.YjLCWK5cGit5KEpSkcKwhXlSncGFhC819P4RTvaYao8",
+			"type": "string"
+		},
+		{
+			"key": "EMS",
+			"value": "https://qa-emsapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "PARROT",
+			"value": "https://qa-parrotapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "PIMS",
+			"value": "https://qa-pimsapi.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "LOCAL",
+			"value": "http://localhost:3001",
+			"type": "string"
+		},
+		{
+			"key": "PARROTV2",
+			"value": "https://qa-parrotapiv2.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "LOCAL2",
+			"value": "http://localhost:3002",
+			"type": "string"
+		},
+		{
+			"key": "QA",
+			"value": "https://qa-parrotapiv2.serino.com",
+			"type": "string"
+		},
+		{
+			"key": "random_uuid",
+			"value": ""
+		},
+		{
+			"key": "random_number",
+			"value": ""
+		},
+		{
+			"key": "table_id",
+			"value": ""
+		},
+		{
+			"key": "table_capacity",
+			"value": ""
+		},
+		{
+			"key": "employee_id",
+			"value": ""
+		},
+		{
+			"key": "access_code",
+			"value": ""
+		},
+		{
+			"key": "first_name",
+			"value": ""
+		},
+		{
+			"key": "last_name",
+			"value": ""
+		},
+		{
+			"key": "_id",
+			"value": ""
+		},
+		{
+			"key": "formattedDateTime",
+			"value": ""
+		},
+		{
+			"key": "cart_id",
+			"value": ""
+		},
+		{
+			"key": "item_id",
+			"value": ""
+		},
+		{
+			"key": "MERCHANT_ACCESS_TOKEN",
+			"value": ""
+		},
+		{
+			"key": "or_number",
+			"value": ""
+		}
+	]
+}
