@@ -1,1 +1,0 @@
-# POS-api-postman-newman-jenkins

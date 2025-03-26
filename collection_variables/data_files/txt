@@ -1,0 +1,11 @@
+ito maam ung scenario naten 
+
+-POS_DineIn
+-POS_TakeOut
+-POS_Delivery_foodPanda
+-POS_Pickup_foodPanda
+-POS_Delivery_Grab
+-POS_Pickup_Grab
+
+-KIOSK_DineIn
+-KIOSK_TakeOut

@@ -1,0 +1,27 @@
+{
+  "name": "src",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "e2e": "cd scripts/agregator && node e2e.js",
+    "1": "cd scripts && node e2e.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.7.5",
+    "concurrently": "^9.1.0",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "exceljs": "^4.4.0",
+    "fast-speedtest-api": "^0.3.2",
+    "fs": "^0.0.1-security",
+    "googleapis": "^142.0.0",
+    "json2csv": "^6.0.0-alpha.2",
+    "mongoose": "^8.9.1",
+    "newman": "^6.2.1",
+    "newman-reporter-htmlextra": "^1.23.1",
+    "path": "^0.12.7"
+  }
+}

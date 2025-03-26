@@ -1,0 +1,26 @@
+├── .gitignore
+├── collection_variables
+│   ├── api_collection
+│   │   └── e2e dynamic new.json
+│   ├── data_files
+│   │   ├── data_variables
+│   │   │   └── datafile.json
+│   │   └── txt
+│   └── Environments
+│       └── aggr_env.json
+├── directory_structure.txt
+├── extracted_data.txt
+├── modules
+│   └── newman_aggr_module.js
+├── package-lock.json
+├── package.json
+├── Reports_POS_KJ_QA
+│   ├── report_20250327_002905.csv
+│   ├── report_20250327_002905.html
+│   └── summary_report_20250327_002905.txt
+├── scripts
+│   ├── agregator
+│   │   └── e2e.js
+│   └── e2e.js
+├── tree.js
+└── tree.ps1
