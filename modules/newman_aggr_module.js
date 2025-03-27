@@ -91,9 +91,9 @@ function generateCSVReport(reportPath, summary, dataKey) {
 
             // Log data to the console and write it to a file
             // console.log("Log Entry:", logData);
-            fs.appendFileSync("../extracted_data.txt", logData, {
-              encoding: "utf8",
-            });
+            // fs.appendFileSync("../extracted_data.txt", logData, {
+            //   encoding: "utf8",
+            // });
           } else {
             // console.warn(
             //   "Missing `id` or `or_number` in the data entry:",
@@ -133,9 +133,9 @@ function generateCSVReport(reportPath, summary, dataKey) {
 
         // Log data to the console and write it to a file
         // console.log("Log Entry:", logData);
-        fs.appendFileSync("../extracted_data.txt", logData, {
-          encoding: "utf8",
-        });
+        // fs.appendFileSync("../extracted_data.txt", logData, {
+        //   encoding: "utf8",
+        // });
       } catch (error) {
         // Detailed error handling for debugging
         // console.error("Error processing response stream:", {
