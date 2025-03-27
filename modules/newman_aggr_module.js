@@ -303,6 +303,8 @@ function getNewmanConfig(
     reporter: {
       htmlextra: {
         export: htmlReportPath,
+        omitHeaders: ["Authorization"],
+        omitResponseBody: true, // Hide response body (if sensitive)
       },
     },
   };
